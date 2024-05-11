@@ -61,6 +61,7 @@ model Transaction {
   id          Int             @id @default(autoincrement())
   description String?
   category    String?
+  date        DateTime        @db.Timestamptz()
   amount      Decimal         @default(0) @db.Money
   observation String?
   type        TransactionType @default(EXPENSE)
@@ -68,8 +69,17 @@ model Transaction {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  BankAccounts   BankAccounts @relation(fields: [bankAccountsId], references: [id])
-  bankAccountsId Int
+  BankAccounts          BankAccounts         @relation(fields: [bankAccountsId], references: [id])
+  bankAccountsId        Int
+  CategoryTransaction   CategoryTransaction? @relation(fields: [categoryTransactionId], references: [id])
+  categoryTransactionId Int?
+}
+
+model CategoryTransaction {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  Transaction Transaction[]
 }
 
 enum TodoStatus {

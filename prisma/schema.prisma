@@ -13,8 +13,7 @@ model User {
   password String
   name     String
 
-  createdAt DateTime @default(now()) @db.Timestamptz()
-  updatedAt DateTime @default(now()) @db.Timestamptz()
+  createdAt DateTime @default(now())
 
   Schedule     Schedule[]
   TodoList     TodoList[]
@@ -27,8 +26,8 @@ model Schedule {
   description String?
   date        DateTime @db.Timestamptz()
 
-  createdAt DateTime @default(now()) @db.Timestamptz()
-  updatedAt DateTime @default(now()) @db.Timestamptz()
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   User   User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int
@@ -39,8 +38,8 @@ model TodoList {
   todo String
   done TodoStatus @default(PENDING)
 
-  createdAt DateTime @default(now()) @db.Timestamptz()
-  updatedAt DateTime @default(now()) @db.Timestamptz()
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   User   User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int
@@ -50,7 +49,7 @@ model BankAccounts {
   id   Int    @id @default(autoincrement())
   name String @unique
 
-  createdAt DateTime @default(now()) @db.Timestamptz()
+  createdAt DateTime @default(now())
 
   Transaction Transaction[]
 
@@ -66,8 +65,8 @@ model Transaction {
   observation String?
   type        TransactionType @default(EXPENSE)
 
-  createdAt DateTime @default(now()) @db.Timestamptz()
-  updatedAt DateTime @default(now()) @db.Timestamptz()
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   BankAccounts   BankAccounts @relation(fields: [bankAccountsId], references: [id])
   bankAccountsId Int

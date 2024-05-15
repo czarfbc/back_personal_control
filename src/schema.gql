@@ -3,18 +3,12 @@
 # ------------------------------------------------------
 
 type User {
-  """Example field (placeholder)"""
   email: String!
-
-  """Example field (placeholder)"""
-  password: String!
-
-  """Example field (placeholder)"""
   name: String!
+  id: Int!
 }
 
 type Query {
-  findAll: [User!]!
   findOne(id: Int!): User!
 }
 
@@ -25,24 +19,14 @@ type Mutation {
 }
 
 input CreateUserInput {
-  """Example field (placeholder)"""
   email: String!
-
-  """Example field (placeholder)"""
   password: String!
-
-  """Example field (placeholder)"""
   name: String!
 }
 
 input UpdateUserInput {
-  """Example field (placeholder)"""
   email: String
-
-  """Example field (placeholder)"""
   password: String
-
-  """Example field (placeholder)"""
   name: String
   id: Int!
 }

@@ -8,6 +8,13 @@ type User {
   id: Int!
 }
 
+type Auth {
+  email: String
+  name: String
+  id: Int
+  access_token: String
+}
+
 type Query {
   findOne(id: Int!): User!
 }
@@ -16,6 +23,7 @@ type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   removeUser(id: Int!): User!
+  createAuth(createAuthInput: CreateAuthInput!): Auth!
 }
 
 input CreateUserInput {
@@ -29,4 +37,9 @@ input UpdateUserInput {
   password: String
   name: String
   id: Int!
+}
+
+input CreateAuthInput {
+  email: String!
+  password: String!
 }

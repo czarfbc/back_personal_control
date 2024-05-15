@@ -24,8 +24,8 @@ export class UsersService {
 
     const hash = await bcrypt.hash(createUserInput.password, 10);
     const iv = randomBytes(16);
-
-    const key = (await promisify(scrypt)(hash, 'salt', 32)) as Buffer;
+    const decryptPass = process.env.DECRYPT_KEY;
+    const key = (await promisify(scrypt)(decryptPass, 'salt', 32)) as Buffer;
     const cipher = createCipheriv('aes-256-ctr', key, iv);
 
     const encryptedText = Buffer.concat([
@@ -34,15 +34,27 @@ export class UsersService {
     ]).toString('hex');
 
     const createUser = this.prismaService.user.create({
-      data: { ...createUserInput, password: encryptedText },
+      data: {
+        ...createUserInput,
+        password: encryptedText,
+        iv: iv.toString('hex'),
+      },
     });
 
     return createUser;
   }
 
-  async findOne(id: number): Promise<User> {
+  async findOneById(id: number): Promise<User> {
     const findOne = await this.prismaService.user.findUnique({
       where: { id },
+    });
+
+    return findOne;
+  }
+
+  async findOneByEmail(email: string): Promise<User> {
+    const findOne = await this.prismaService.user.findUnique({
+      where: { email },
     });
 
     return findOne;

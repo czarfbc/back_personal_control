@@ -20,6 +20,7 @@ export class AuthService {
     name: string;
     id: number;
     access_token: string;
+    refresh_token: string;
   }> {
     const findUserEmail = await this.usersService.findOneByEmail(email);
     if (!findUserEmail) {
@@ -48,12 +49,18 @@ export class AuthService {
     };
 
     const access_token = await this.jwtService.signAsync(payload);
+    const refresh_token = await this.jwtService.signAsync(payload, {
+      expiresIn: '7d',
+    });
 
     return {
-      email: findUserEmail.email,
-      name: findUserEmail.name,
       id: findUserEmail.id,
+      name: findUserEmail.name,
+      email: findUserEmail.email,
       access_token,
+      refresh_token,
     };
   }
+
+  async refresh(refreshToken: string) {}
 }

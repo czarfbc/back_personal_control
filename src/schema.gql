@@ -9,10 +9,11 @@ type User {
 }
 
 type Auth {
-  email: String
-  name: String
-  id: Int
-  access_token: String
+  email: String!
+  name: String!
+  id: Int!
+  access_token: String!
+  refresh_token: String!
 }
 
 type Query {
@@ -23,7 +24,8 @@ type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   removeUser(id: Int!): User!
-  createAuth(createAuthInput: CreateAuthInput!): Auth!
+  signIn(authInput: AuthInput!): Auth!
+  refreshToken(refreshToken: String!): Auth!
 }
 
 input CreateUserInput {
@@ -39,7 +41,7 @@ input UpdateUserInput {
   id: Int!
 }
 
-input CreateAuthInput {
+input AuthInput {
   email: String!
   password: String!
 }

@@ -4,6 +4,7 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { createDecipheriv, scrypt } from 'crypto';
 import { promisify } from 'util';
+import { SignUpAuthInput, SignInAuthInput } from './dto';
 
 @Injectable()
 export class AuthService {
@@ -12,17 +13,30 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async signIn(
-    email: string,
-    password: string,
-  ): Promise<{
+  async signUp(signUpAuthInput: SignUpAuthInput): Promise<SignUpAuthInput> {
+    const findUserEmail = await this.usersService.findOneByEmail(
+      signUpAuthInput.email,
+    );
+
+    if (findUserEmail) {
+      throw new Error('Email already exists');
+    }
+
+    const createUser = await this.usersService.create(signUpAuthInput);
+
+    return createUser;
+  }
+
+  async signIn(signInAuthInput: SignInAuthInput): Promise<{
     email: string;
     name: string;
     id: number;
     access_token: string;
     refresh_token: string;
   }> {
-    const findUserEmail = await this.usersService.findOneByEmail(email);
+    const findUserEmail = await this.usersService.findOneByEmail(
+      signInAuthInput.email,
+    );
     if (!findUserEmail) {
       throw new Error('Invalid credentials');
     }
@@ -38,14 +52,18 @@ export class AuthService {
       decipher.final(),
     ]).toString();
 
-    const isMatch = await bcrypt.compare(password, decryptedText);
+    const isMatch = await bcrypt.compare(
+      signInAuthInput.password,
+      decryptedText,
+    );
     if (!isMatch) {
       throw new Error('Invalid credentials');
     }
 
     const payload = {
       sub: findUserEmail.id,
-      username: findUserEmail.email,
+      email: findUserEmail.email,
+      name: findUserEmail.name,
     };
 
     const access_token = await this.jwtService.signAsync(payload);
@@ -61,6 +79,4 @@ export class AuthService {
       refresh_token,
     };
   }
-
-  async refresh(refreshToken: string) {}
 }

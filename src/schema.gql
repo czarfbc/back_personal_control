@@ -17,6 +17,7 @@ type Auth {
 }
 
 type Query {
+  getHello: String!
   findOne(id: Int!): User!
 }
 

@@ -1,3 +1,3 @@
-import { IPayload } from './payload.interface';
+import { IPayloadAuth } from './payload-auth.interface';
 
-export { IPayload };
+export { IPayloadAuth };

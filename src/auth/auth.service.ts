@@ -5,7 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 import { createDecipheriv, scrypt } from 'crypto';
 import { promisify } from 'util';
 import { SignUpAuthInput, SignInAuthInput } from './dto';
-import { IPayload } from './interfaces';
+import { IPayloadAuth } from './interfaces';
 
 @Injectable()
 export class AuthService {
@@ -61,7 +61,7 @@ export class AuthService {
       throw new Error('Invalid credentials');
     }
 
-    const payload: IPayload = {
+    const payload: IPayloadAuth = {
       sub: findUserEmail.id,
       email: findUserEmail.email,
       name: findUserEmail.name,

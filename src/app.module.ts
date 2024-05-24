@@ -13,7 +13,7 @@ import { AppResolver } from './app.resolver';
     PrismaModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      autoSchemaFile: join(process.cwd(), 'src/graphql/schema.gql'),
     }),
     UsersModule,
     AuthModule,

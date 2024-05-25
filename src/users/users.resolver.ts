@@ -9,8 +9,8 @@ export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
   @Query(() => User)
-  whoAmI(@CurrentUser() user: Partial<User & { user_id: number }>) {
-    return this.usersService.findOneById(user.user_id);
+  whoAmI(@CurrentUser() user: User) {
+    return this.usersService.findOneById(user.id);
   }
 
   @Mutation(() => User)

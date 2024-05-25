@@ -12,6 +12,7 @@ model User {
   email    String @unique
   password String
   name     String
+  iv       String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -78,10 +79,15 @@ model Transaction {
 }
 
 model CategoryTransaction {
-  id   Int    @id @default(autoincrement())
-  name String @unique
+  id   Int                      @id @default(autoincrement())
+  name String?                  @unique
+  type CategoryTransactionType? @default(OTHER)
 
   Transaction Transaction[]
+}
+
+enum CategoryTransactionType {
+  OTHER
 }
 
 enum TodoStatus {

@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
-import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { createDecipheriv, scrypt } from 'crypto';
-import { promisify } from 'util';
 import { SignUpAuthInput, SignInAuthInput } from './dto';
+import { IPayloadAuth } from './interfaces';
+import { CryptoUtils } from 'src/utils/crypto.utils';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
+    private cryptoUtils: CryptoUtils,
   ) {}
 
   async signUp(signUpAuthInput: SignUpAuthInput): Promise<SignUpAuthInput> {
@@ -41,35 +41,29 @@ export class AuthService {
       throw new Error('Invalid credentials');
     }
 
-    const decryptPass = process.env.DECRYPT_KEY;
-
-    const iv = Buffer.from(findUserEmail.iv, 'hex');
-    const key = (await promisify(scrypt)(decryptPass, 'salt', 32)) as Buffer;
-
-    const decipher = createDecipheriv('aes-256-ctr', key, iv);
-    const decryptedText = Buffer.concat([
-      decipher.update(Buffer.from(findUserEmail.password, 'hex')),
-      decipher.final(),
-    ]).toString();
-
-    const isMatch = await bcrypt.compare(
+    const decipher = await this.cryptoUtils.decrypt(
+      findUserEmail.password,
+      findUserEmail.iv,
+    );
+    const isMatch = await this.cryptoUtils.compare_hash(
       signInAuthInput.password,
-      decryptedText,
+      decipher,
     );
     if (!isMatch) {
       throw new Error('Invalid credentials');
     }
 
-    const payload = {
+    const payload: IPayloadAuth = {
       sub: findUserEmail.id,
       email: findUserEmail.email,
       name: findUserEmail.name,
     };
-
-    const access_token = await this.jwtService.signAsync(payload);
-    const refresh_token = await this.jwtService.signAsync(payload, {
-      expiresIn: '7d',
-    });
+    const [access_token, refresh_token] = await Promise.all([
+      this.jwtService.signAsync(payload),
+      this.jwtService.signAsync(payload, {
+        expiresIn: '7d',
+      }),
+    ]);
 
     return {
       id: findUserEmail.id,

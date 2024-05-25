@@ -3,13 +3,14 @@ import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { User } from '@prisma/client';
-import { createCipheriv, randomBytes, scrypt } from 'crypto';
-import { promisify } from 'util';
-import * as bcrypt from 'bcrypt';
+import { CryptoUtils } from 'src/utils/crypto.utils';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private cryptoUtils: CryptoUtils,
+  ) {}
 
   async create(createUserInput: CreateUserInput) {
     const findUserEmail = await this.prismaService.user.findUnique({
@@ -22,22 +23,14 @@ export class UsersService {
       throw new Error('Email already exists');
     }
 
-    const hash = await bcrypt.hash(createUserInput.password, 10);
-    const iv = randomBytes(16);
-    const decryptPass = process.env.DECRYPT_KEY;
-    const key = (await promisify(scrypt)(decryptPass, 'salt', 32)) as Buffer;
-    const cipher = createCipheriv('aes-256-ctr', key, iv);
-
-    const encryptedText = Buffer.concat([
-      cipher.update(hash, 'utf-8'),
-      cipher.final(),
-    ]).toString('hex');
+    const hash = await this.cryptoUtils.generate_hash(createUserInput.password);
+    const encrypt = await this.cryptoUtils.encrypt(hash);
 
     const createUser = this.prismaService.user.create({
       data: {
         ...createUserInput,
-        password: encryptedText,
-        iv: iv.toString('hex'),
+        password: encrypt.encryptedData,
+        iv: encrypt.iv,
       },
     });
 

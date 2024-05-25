@@ -8,6 +8,7 @@ import { PassportModule } from '@nestjs/passport';
 import { APP_GUARD } from '@nestjs/core';
 import { GqlAuthGuard } from './guards';
 import { JwtStrategy } from './strategies';
+import { CryptoUtils } from 'src/utils/crypto.utils';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { JwtStrategy } from './strategies';
     AuthResolver,
     AuthService,
     JwtStrategy,
+    CryptoUtils,
     {
       provide: APP_GUARD,
       useClass: GqlAuthGuard,

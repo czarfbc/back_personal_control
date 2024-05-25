@@ -1,6 +1,6 @@
 import { Resolver, Query } from '@nestjs/graphql';
 import { AppService } from './app.service';
-import { Public } from './auth/decorators/public-auth.decorator';
+import { Public } from './decorators';
 
 @Resolver(() => String)
 export class AppResolver {

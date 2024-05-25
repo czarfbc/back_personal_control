@@ -2,14 +2,15 @@ import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { UsersService } from './users.service';
 import { User } from './entities/user.entity';
 import { UpdateUserInput } from './dto/update-user.input';
+import { CurrentUser } from 'src/decorators';
 
 @Resolver(() => User)
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
-  @Query(() => User, { name: 'findOne' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.usersService.findOneById(id);
+  @Query(() => User)
+  whoAmI(@CurrentUser() user: Partial<User & { user_id: number }>) {
+    return this.usersService.findOneById(user.user_id);
   }
 
   @Mutation(() => User)

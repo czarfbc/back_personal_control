@@ -28,9 +28,6 @@ export class AuthService {
   }
 
   async signIn(signInAuthInput: SignInAuthInput): Promise<{
-    email: string;
-    name: string;
-    id: number;
     access_token: string;
     refresh_token: string;
   }> {
@@ -55,20 +52,15 @@ export class AuthService {
 
     const payload: IPayloadAuth = {
       sub: findUserEmail.id,
-      email: findUserEmail.email,
-      name: findUserEmail.name,
+      username: findUserEmail.name,
     };
-    const [access_token, refresh_token] = await Promise.all([
-      this.jwtService.signAsync(payload),
-      this.jwtService.signAsync(payload, {
-        expiresIn: '7d',
-      }),
-    ]);
+
+    const [access_token, refresh_token] = [
+      this.jwtService.sign(payload),
+      this.jwtService.sign(payload),
+    ];
 
     return {
-      id: findUserEmail.id,
-      name: findUserEmail.name,
-      email: findUserEmail.email,
       access_token,
       refresh_token,
     };

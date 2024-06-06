@@ -1,9 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { SignUpAuthInput, SignInAuthInput } from './dto';
 import { IPayloadAuth } from './interfaces';
 import { CryptoUtils } from 'src/utils/crypto.utils';
+import { jwtConstants } from './constants';
 
 @Injectable()
 export class AuthService {
@@ -28,9 +33,6 @@ export class AuthService {
   }
 
   async signIn(signInAuthInput: SignInAuthInput): Promise<{
-    email: string;
-    name: string;
-    id: number;
     access_token: string;
     refresh_token: string;
   }> {
@@ -55,20 +57,57 @@ export class AuthService {
 
     const payload: IPayloadAuth = {
       sub: findUserEmail.id,
+      username: findUserEmail.name,
       email: findUserEmail.email,
-      name: findUserEmail.name,
     };
-    const [access_token, refresh_token] = await Promise.all([
-      this.jwtService.signAsync(payload),
-      this.jwtService.signAsync(payload, {
-        expiresIn: '7d',
-      }),
-    ]);
+
+    const [access_token, refresh_token] = [
+      this.jwtService.sign({ ...payload, type: 'access_token' }),
+      this.jwtService.sign(
+        { ...payload, type: 'refresh_token' },
+        { expiresIn: '7d', secret: jwtConstants.secret_refresh_token_key },
+      ),
+    ];
 
     return {
-      id: findUserEmail.id,
-      name: findUserEmail.name,
-      email: findUserEmail.email,
+      access_token,
+      refresh_token,
+    };
+  }
+
+  async refreshToken(refreshToken: string): Promise<{
+    access_token: string;
+    refresh_token: string;
+  }> {
+    if (!refreshToken) {
+      throw new BadRequestException('Refresh token is required');
+    }
+
+    const payload: IPayloadAuth = this.jwtService.verify(refreshToken, {
+      secret: jwtConstants.secret_refresh_token_key,
+    });
+
+    if (payload.type !== 'refresh_token') {
+      throw new UnauthorizedException('Invalid token');
+    }
+
+    const finduserId = await this.usersService.findOneById(payload.sub);
+
+    const newPayload: IPayloadAuth = {
+      sub: finduserId.id,
+      username: finduserId.name,
+      email: finduserId.email,
+    };
+
+    const [access_token, refresh_token] = [
+      this.jwtService.sign({ ...newPayload, type: 'access_token' }),
+      this.jwtService.sign(
+        { ...newPayload, type: 'refresh_token' },
+        { expiresIn: '7d', secret: jwtConstants.secret_refresh_token_key },
+      ),
+    ];
+
+    return {
       access_token,
       refresh_token,
     };

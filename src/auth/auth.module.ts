@@ -15,9 +15,8 @@ import { CryptoUtils } from 'src/utils/crypto.utils';
     UsersModule,
     PassportModule,
     JwtModule.register({
-      global: true,
       secret: jwtConstants.secret_token_key,
-      signOptions: { expiresIn: '60s' },
+      signOptions: { expiresIn: '5m' },
     }),
   ],
   providers: [

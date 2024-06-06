@@ -17,8 +17,7 @@ type Auth {
 }
 
 type Query {
-  getHello: String!
-  findOne(id: Int!): User!
+  whoAmI: User!
 }
 
 type Mutation {
@@ -26,6 +25,7 @@ type Mutation {
   removeUser(id: Int!): User!
   signUp(signUpAuthInput: SignUpAuthInput!): Auth!
   signIn(signInAuthInput: SignInAuthInput!): Auth!
+  refreshToken(refreshTokenAuthInput: RefreshTokenAuthInput!): Auth!
 }
 
 input UpdateUserInput {
@@ -44,4 +44,8 @@ input SignUpAuthInput {
 input SignInAuthInput {
   email: String!
   password: String!
+}
+
+input RefreshTokenAuthInput {
+  refresh_token: String!
 }

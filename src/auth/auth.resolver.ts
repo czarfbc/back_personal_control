@@ -1,6 +1,6 @@
 import { Resolver, Mutation, Args } from '@nestjs/graphql';
 import { AuthService } from './auth.service';
-import { SignInAuthInput, SignUpAuthInput } from './dto';
+import { SignInAuthInput, SignUpAuthInput, RefreshTokenAuthInput } from './dto';
 import { Auth } from './entities';
 import { Public } from 'src/decorators';
 
@@ -21,5 +21,13 @@ export class AuthResolver {
       email: signInAuthInput.email,
       password: signInAuthInput.password,
     });
+  }
+
+  @Public()
+  @Mutation(() => Auth)
+  refreshToken(
+    @Args('refreshTokenAuthInput') refreshTokenAuthInput: RefreshTokenAuthInput,
+  ) {
+    return this.authService.refreshToken(refreshTokenAuthInput.refresh_token);
   }
 }

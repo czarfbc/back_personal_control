@@ -9,6 +9,7 @@ import { SignUpAuthInput, SignInAuthInput } from './dto';
 import { IPayloadAuth } from './interfaces';
 import { CryptoUtils } from 'src/utils/crypto.utils';
 import { jwtConstants } from './constants';
+import { CreateUserUseCase } from 'src/users/use_cases/create-user.use-case';
 
 @Injectable()
 export class AuthService {
@@ -16,20 +17,11 @@ export class AuthService {
     private usersService: UsersService,
     private jwtService: JwtService,
     private cryptoUtils: CryptoUtils,
+    private createUserUseCase: CreateUserUseCase,
   ) {}
 
   async signUp(signUpAuthInput: SignUpAuthInput): Promise<SignUpAuthInput> {
-    const findUserEmail = await this.usersService.findOneByEmail(
-      signUpAuthInput.email,
-    );
-
-    if (findUserEmail) {
-      throw new Error('Email already exists');
-    }
-
-    const createUser = await this.usersService.create(signUpAuthInput);
-
-    return createUser;
+    return await this.createUserUseCase.execute(signUpAuthInput);
   }
 
   async signIn(signInAuthInput: SignInAuthInput): Promise<{

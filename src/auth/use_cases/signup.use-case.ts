@@ -1,23 +1,23 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { CreateUserInput } from '../dto/create-user.input';
-import { IUsersRepository } from '../repository/users.repository';
+import { SignUpAuthInput } from '../dto';
+import { IAuthRepository } from '../repository/auth.repository';
 import { CryptoUtils } from 'src/utils/crypto.utils';
 
 @Injectable()
-export class CreateUserUseCase {
-  @Inject('IUsersRepository')
-  private usersRepository: IUsersRepository;
+export class SignUpUseCase {
+  @Inject('IAuthRepository')
+  private authRepository: IAuthRepository;
 
   @Inject()
   private cryptoUtils: CryptoUtils;
 
-  async execute(input: CreateUserInput) {
+  async execute(input: SignUpAuthInput) {
     const [, encrypt] = await Promise.all([
       this.findUserEmail(input.email),
       this.encryptPassword(input.password),
     ]);
 
-    const createUser = await this.usersRepository.create({
+    const createUser = await this.authRepository.signUp({
       ...input,
       password: encrypt.encryptedData,
       iv: encrypt.iv,
@@ -27,7 +27,7 @@ export class CreateUserUseCase {
   }
 
   private async findUserEmail(email: string) {
-    const findUserEmail = await this.usersRepository.findOneByEmail(email);
+    const findUserEmail = await this.authRepository.findOneByEmail(email);
     if (findUserEmail) {
       throw new Error('Email already exists');
     }

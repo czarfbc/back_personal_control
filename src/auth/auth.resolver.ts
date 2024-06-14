@@ -1,26 +1,33 @@
 import { Resolver, Mutation, Args } from '@nestjs/graphql';
-import { AuthService } from './auth.service';
 import { SignInAuthInput, SignUpAuthInput, RefreshTokenAuthInput } from './dto';
 import { Auth } from './entities';
 import { Public } from 'src/decorators';
+import { Inject } from '@nestjs/common';
+import { SignUpUseCase } from './use_cases/signup.use-case';
+import { SignInUseCase } from './use_cases/signin.use-case';
+import { RefreshTokenUseCase } from './use_cases/refresh-token.use-case';
 
 @Resolver(() => Auth)
 export class AuthResolver {
-  constructor(private readonly authService: AuthService) {}
+  @Inject()
+  private signUpUseCase: SignUpUseCase;
+
+  @Inject()
+  private signInUseCase: SignInUseCase;
+
+  @Inject()
+  private refreshTokenUseCase: RefreshTokenUseCase;
 
   @Public()
   @Mutation(() => Auth)
   signUp(@Args('signUpAuthInput') signUpAuthInput: SignUpAuthInput) {
-    return this.authService.signUp(signUpAuthInput);
+    return this.signUpUseCase.execute(signUpAuthInput);
   }
 
   @Public()
   @Mutation(() => Auth)
   signIn(@Args('signInAuthInput') signInAuthInput: SignInAuthInput) {
-    return this.authService.signIn({
-      email: signInAuthInput.email,
-      password: signInAuthInput.password,
-    });
+    return this.signInUseCase.execute(signInAuthInput);
   }
 
   @Public()
@@ -28,6 +35,8 @@ export class AuthResolver {
   refreshToken(
     @Args('refreshTokenAuthInput') refreshTokenAuthInput: RefreshTokenAuthInput,
   ) {
-    return this.authService.refreshToken(refreshTokenAuthInput.refresh_token);
+    return this.refreshTokenUseCase.execute(
+      refreshTokenAuthInput.refresh_token,
+    );
   }
 }

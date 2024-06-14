@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AuthService } from './auth.service';
 import { AuthResolver } from './auth.resolver';
 import { UsersModule } from 'src/users/users.module';
 import { JwtModule } from '@nestjs/jwt';
@@ -9,6 +8,11 @@ import { APP_GUARD } from '@nestjs/core';
 import { GqlAuthGuard } from './guards';
 import { JwtStrategy } from './strategies';
 import { CryptoUtils } from 'src/utils/crypto.utils';
+import { AuthRepository } from './repository/auth.repository';
+import { SignUpUseCase } from './use_cases/signup.use-case';
+import { SignInUseCase } from './use_cases/signin.use-case';
+import { GenerateTokenUtils } from 'src/utils/generate-token.utils';
+import { RefreshTokenUseCase } from './use_cases/refresh-token.use-case';
 
 @Module({
   imports: [
@@ -21,14 +25,21 @@ import { CryptoUtils } from 'src/utils/crypto.utils';
   ],
   providers: [
     AuthResolver,
-    AuthService,
     JwtStrategy,
     CryptoUtils,
+    GenerateTokenUtils,
+    RefreshTokenUseCase,
+    SignUpUseCase,
+    SignInUseCase,
+    AuthRepository,
     {
       provide: APP_GUARD,
       useClass: GqlAuthGuard,
     },
+    {
+      provide: 'IAuthRepository',
+      useExisting: AuthRepository,
+    },
   ],
-  exports: [AuthService],
 })
 export class AuthModule {}

@@ -1,25 +1,25 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
-import { UsersService } from './users.service';
 import { User } from './entities/user.entity';
-import { UpdateUserInput } from './dto/update-user.input';
 import { CurrentUser } from 'src/decorators';
+import { Inject } from '@nestjs/common';
+import { DeleteUserUseCase } from './use_cases/delete-user.use-case';
+import { WhoAmIUseCase } from './use_cases/who-am-i.use-case';
 
 @Resolver(() => User)
 export class UsersResolver {
-  constructor(private readonly usersService: UsersService) {}
+  @Inject()
+  private readonly deleteUserUseCase: DeleteUserUseCase;
+
+  @Inject()
+  private readonly whoAmIUseCase: WhoAmIUseCase;
 
   @Query(() => User)
   whoAmI(@CurrentUser() user: Partial<User> & { userId: number }) {
-    return this.usersService.findOneById(user.userId);
+    return this.whoAmIUseCase.execute(user.userId);
   }
 
   @Mutation(() => User)
-  updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
-    return this.usersService.update(updateUserInput.id, updateUserInput);
-  }
-
-  @Mutation(() => User)
-  removeUser(@Args('id', { type: () => Int }) id: number) {
-    return this.usersService.remove(id);
+  deleteUser(@Args('id', { type: () => Int }) id: number) {
+    this.deleteUserUseCase.execute(id);
   }
 }

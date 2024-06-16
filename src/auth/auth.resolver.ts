@@ -3,9 +3,9 @@ import { SignInAuthInput, SignUpAuthInput, RefreshTokenAuthInput } from './dto';
 import { Auth } from './entities';
 import { Public } from 'src/decorators';
 import { Inject } from '@nestjs/common';
-import { SignUpUseCase } from './use_cases/signup.use-case';
-import { SignInUseCase } from './use_cases/signin.use-case';
-import { RefreshTokenUseCase } from './use_cases/refresh-token.use-case';
+import { SignUpUseCase } from './use-cases/sign-up.use-case';
+import { SignInUseCase } from './use-cases/sign-in.use-case';
+import { RefreshTokenUseCase } from './use-cases/refresh-token.use-case';
 
 @Resolver(() => Auth)
 export class AuthResolver {

@@ -91,6 +91,7 @@ enum CategoryTransactionType {
 }
 
 enum TodoStatus {
+  CANCELED
   PENDING
   IN_PROGRESS
   COMPLETED

@@ -9,7 +9,9 @@ export class TodoListResolver {
   constructor(private readonly todoListService: TodoListService) {}
 
   @Mutation(() => TodoList)
-  createTodoList(@Args('createTodoListInput') createTodoListInput: CreateTodoListInput) {
+  createTodoList(
+    @Args('createTodoListInput') createTodoListInput: CreateTodoListInput,
+  ) {
     return this.todoListService.create(createTodoListInput);
   }
 
@@ -24,8 +26,13 @@ export class TodoListResolver {
   }
 
   @Mutation(() => TodoList)
-  updateTodoList(@Args('updateTodoListInput') updateTodoListInput: UpdateTodoListInput) {
-    return this.todoListService.update(updateTodoListInput.id, updateTodoListInput);
+  updateTodoList(
+    @Args('updateTodoListInput') updateTodoListInput: UpdateTodoListInput,
+  ) {
+    return this.todoListService.update(
+      updateTodoListInput.id,
+      updateTodoListInput,
+    );
   }
 
   @Mutation(() => TodoList)

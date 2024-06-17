@@ -22,8 +22,9 @@ type Schedule {
 }
 
 type TodoList {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  todo: String!
+  id: Int!
+  userId: Int!
 }
 
 type Query {
@@ -73,12 +74,10 @@ input UpdateScheduleInput {
 }
 
 input CreateTodoListInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  todo: String!
 }
 
 input UpdateTodoListInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  todo: String
   id: Int!
 }

@@ -31,7 +31,6 @@ type Query {
   whoAmI: User!
   schedules: [Schedule!]!
   schedule(id: Int!): Schedule!
-  todoList(id: Int!): TodoList!
 }
 
 type Mutation {
@@ -43,8 +42,7 @@ type Mutation {
   updateSchedule(updateScheduleInput: UpdateScheduleInput!): Schedule!
   removeSchedule(id: Int!): Schedule!
   createTodoList(createTodoListInput: CreateTodoListInput!): TodoList!
-  updateTodoList(updateTodoListInput: UpdateTodoListInput!): TodoList!
-  removeTodoList(id: Int!): TodoList!
+  changeStatusTodoList(changeStatusTodoList: ChangeStatusTodoListInput!): TodoList!
 }
 
 input SignUpAuthInput {
@@ -77,7 +75,7 @@ input CreateTodoListInput {
   todo: String!
 }
 
-input UpdateTodoListInput {
-  todo: String
+input ChangeStatusTodoListInput {
+  status: String!
   id: Int!
 }

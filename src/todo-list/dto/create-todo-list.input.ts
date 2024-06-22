@@ -8,4 +8,6 @@ export class CreateTodoListInput {
   @MinLength(3)
   @Field(() => String)
   todo: string;
+
+  userId: number;
 }

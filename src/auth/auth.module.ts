@@ -20,7 +20,7 @@ import { RefreshTokenUseCase } from './use-cases/refresh-token.use-case';
     PassportModule,
     JwtModule.register({
       secret: jwtConstants.secret_token_key,
-      signOptions: { expiresIn: '5m' },
+      signOptions: { expiresIn: '2600m' },
     }),
   ],
   providers: [

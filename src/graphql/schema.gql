@@ -22,15 +22,20 @@ type Schedule {
 }
 
 type TodoList {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  todo: String!
+  id: Int!
+  userId: Int!
 }
 
 type Query {
   whoAmI: User!
   schedules: [Schedule!]!
   schedule(id: Int!): Schedule!
-  todoList(id: Int!): TodoList!
+  findTodoListByStatus(findTodoListByStatusInput: FindTodoListByStatusInput!): [TodoList!]!
+}
+
+input FindTodoListByStatusInput {
+  status: String!
 }
 
 type Mutation {
@@ -42,8 +47,8 @@ type Mutation {
   updateSchedule(updateScheduleInput: UpdateScheduleInput!): Schedule!
   removeSchedule(id: Int!): Schedule!
   createTodoList(createTodoListInput: CreateTodoListInput!): TodoList!
-  updateTodoList(updateTodoListInput: UpdateTodoListInput!): TodoList!
-  removeTodoList(id: Int!): TodoList!
+  changeStatusTodoList(changeStatusTodoList: ChangeStatusTodoListInput!): TodoList!
+  deleteTodoList(deleteTodoListInput: DeleteTodoListInput!): Boolean!
 }
 
 input SignUpAuthInput {
@@ -73,12 +78,14 @@ input UpdateScheduleInput {
 }
 
 input CreateTodoListInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  todo: String!
 }
 
-input UpdateTodoListInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+input ChangeStatusTodoListInput {
+  status: String!
+  id: Int!
+}
+
+input DeleteTodoListInput {
   id: Int!
 }

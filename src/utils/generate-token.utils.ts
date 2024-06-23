@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { jwtConstants } from 'src/auth/constants';
-import { IPayloadAuth } from 'src/auth/interfaces';
+import { IJWTUserPayload } from 'src/helpers/interfaces/jwt-user-payload.interface';
 
 @Injectable()
 export class GenerateTokenUtils {
@@ -13,7 +13,7 @@ export class GenerateTokenUtils {
     username: string,
     email: string,
   ): Promise<{ access_token: string; refresh_token: string }> {
-    const payload: IPayloadAuth = {
+    const payload: IJWTUserPayload = {
       sub,
       username,
       email,

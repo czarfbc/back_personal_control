@@ -1,7 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { IAuthRepository } from '../repository/auth.repository';
-import { SignInAuthInput } from '../dto';
-import { GenerateTokenUtils, CryptoUtils } from 'src/utils';
+import { SignInAuthInput } from '../dto/signin-auth.input';
+import { GenerateTokenUtils } from 'src/utils/generate-token.utils';
+import { CryptoUtils } from 'src/utils/crypto.utils';
 
 @Injectable()
 export class SignInUseCase {

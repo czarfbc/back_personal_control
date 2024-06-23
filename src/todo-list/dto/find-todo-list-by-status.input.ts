@@ -1,13 +1,14 @@
 import { InputType, Field } from '@nestjs/graphql';
 import { IsNotEmpty, IsString, MinLength } from 'class-validator';
+import { TodoStatus } from 'src/helpers/enums/todo-list-status.enum';
 
 @InputType()
-export class CreateTodoListInput {
+export class FindTodoListByStatusInput {
   @IsNotEmpty()
   @IsString()
   @MinLength(3)
   @Field(() => String)
-  todo: string;
+  status: TodoStatus;
 
   userId: number;
 }

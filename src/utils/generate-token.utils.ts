@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { jwtConstants } from 'src/auth/constants';
-import { IPayloadAuth } from 'src/auth/interfaces';
+import { IPayloadAuth } from 'src/helpers/interfaces';
 
 @Injectable()
 export class GenerateTokenUtils {

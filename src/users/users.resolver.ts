@@ -4,7 +4,7 @@ import { CurrentUser } from 'src/decorators';
 import { Inject } from '@nestjs/common';
 import { DeleteUserUseCase } from './use-cases/delete-user.use-case';
 import { WhoAmIUseCase } from './use-cases/who-am-i.use-case';
-import { IUserJWTInfo } from 'src/interfaces/jwt-info.todo-list.interface';
+import { IUserJWTInfo } from 'src/helpers/interfaces';
 
 @Resolver(() => User)
 export class UsersResolver {

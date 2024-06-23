@@ -10,7 +10,7 @@ import { CreateTodoListUseCase } from './use-cases/create-todo-list.use-case';
 import { ChangeStatusTodoListUseCase } from './use-cases/change-status-todo-list.use-case';
 import { FindTodoListByStatusUseCase } from './use-cases/find-todo-list-by-status.use-case';
 import { CurrentUser } from 'src/decorators';
-import { IUserJWTInfo } from 'src/interfaces/jwt-info.todo-list.interface';
+import { IUserJWTInfo } from 'src/helpers/interfaces';
 
 @Resolver(() => TodoList)
 export class TodoListResolver {

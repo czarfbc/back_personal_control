@@ -1,5 +1,5 @@
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
-import { IPayloadAuth } from '../interfaces';
+import { IPayloadAuth } from '../../helpers/interfaces/payload-auth.interface';
 import { JwtService } from '@nestjs/jwt';
 import { jwtConstants } from '../constants';
 import { IAuthRepository } from '../repository/auth.repository';

@@ -6,7 +6,7 @@ export interface ITodoListRepository {
   create(todo: Partial<TodoList>): Promise<TodoList>;
   // delete(id: number): Promise<void>;
   update(todo: Partial<TodoList>): Promise<TodoList>;
-  // findByStatus(status: string): Promise<TodoList[]>;
+  findByStatus(todo: Partial<TodoList>): Promise<TodoList[]>;
 }
 
 @Injectable()
@@ -29,5 +29,9 @@ export class TodoListRepository implements ITodoListRepository {
     });
   }
 
-  // async findByStatus(status: string): Promise<TodoList[]> {}
+  async findByStatus(todo: TodoList): Promise<TodoList[]> {
+    return await this.prismaService.todoList.findMany({
+      where: { status: todo.status },
+    });
+  }
 }

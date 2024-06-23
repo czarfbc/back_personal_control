@@ -6,13 +6,7 @@ import {
   IsString,
   MinLength,
 } from 'class-validator';
-
-enum TodoStatus {
-  CANCELED = 'CANCELED',
-  PENDING = 'PENDING',
-  IN_PROGRESS = 'IN_PROGRESS',
-  COMPLETED = 'COMPLETED',
-}
+import { TodoStatus } from 'src/helpers/enums/todo-list-status.enum';
 
 @InputType()
 export class ChangeStatusTodoListInput {

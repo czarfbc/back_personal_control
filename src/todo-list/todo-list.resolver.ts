@@ -4,6 +4,7 @@ import {
   CreateTodoListInput,
   ChangeStatusTodoListInput,
   FindTodoListByStatusInput,
+  DeleteTodoListInput,
 } from './dto';
 import { Inject } from '@nestjs/common';
 import { CreateTodoListUseCase } from './use-cases/create-todo-list.use-case';
@@ -11,6 +12,7 @@ import { ChangeStatusTodoListUseCase } from './use-cases/change-status-todo-list
 import { FindTodoListByStatusUseCase } from './use-cases/find-todo-list-by-status.use-case';
 import { CurrentUser } from 'src/decorators';
 import { IUserJWTInfo } from 'src/helpers/interfaces';
+import { DeleteTodoListUseCase } from './use-cases/delete-todo-list.use-case';
 
 @Resolver(() => TodoList)
 export class TodoListResolver {
@@ -22,6 +24,9 @@ export class TodoListResolver {
 
   @Inject()
   private findTodoListByStatusUseCase: FindTodoListByStatusUseCase;
+
+  @Inject()
+  private deleteTodoListUseCase: DeleteTodoListUseCase;
 
   @Mutation(() => TodoList)
   createTodoList(
@@ -54,6 +59,17 @@ export class TodoListResolver {
   ) {
     return this.findTodoListByStatusUseCase.execute({
       ...findTodoListByStatusInput,
+      userId: userJwtInfo.userId,
+    });
+  }
+
+  @Mutation(() => Boolean)
+  deleteTodoList(
+    @Args('deleteTodoListInput') deleteTodoListInput: DeleteTodoListInput,
+    @CurrentUser() userJwtInfo: IUserJWTInfo,
+  ) {
+    return this.deleteTodoListUseCase.execute({
+      ...deleteTodoListInput,
       userId: userJwtInfo.userId,
     });
   }

@@ -1,4 +1,4 @@
-export interface IJWTInfoTodoList {
+export interface IUserJWTInfo {
   userId: number;
   username: string;
   email: string;

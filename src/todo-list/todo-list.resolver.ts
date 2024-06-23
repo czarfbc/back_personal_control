@@ -1,4 +1,4 @@
-import { Resolver, Mutation, Args, Context, Query } from '@nestjs/graphql';
+import { Resolver, Mutation, Args, Query } from '@nestjs/graphql';
 import { TodoList } from './entities/todo-list.entity';
 import {
   CreateTodoListInput,
@@ -7,9 +7,10 @@ import {
 } from './dto';
 import { Inject } from '@nestjs/common';
 import { CreateTodoListUseCase } from './use-cases/create-todo-list.use-case';
-import { IContextReqUserTodoList } from './interfaces/index';
 import { ChangeStatusTodoListUseCase } from './use-cases/change-status-todo-list.use-case';
 import { FindTodoListByStatusUseCase } from './use-cases/find-todo-list-by-status.use-case';
+import { CurrentUser } from 'src/decorators';
+import { IUserJWTInfo } from 'src/interfaces/jwt-info.todo-list.interface';
 
 @Resolver(() => TodoList)
 export class TodoListResolver {
@@ -25,13 +26,11 @@ export class TodoListResolver {
   @Mutation(() => TodoList)
   createTodoList(
     @Args('createTodoListInput') createTodoListInput: CreateTodoListInput,
-    @Context() context: IContextReqUserTodoList,
+    @CurrentUser() userJwtInfo: IUserJWTInfo,
   ) {
-    const userJWT = context.req.user;
-
     return this.createTodoListUseCase.execute({
       ...createTodoListInput,
-      userId: userJWT.userId,
+      userId: userJwtInfo.userId,
     });
   }
 
@@ -39,13 +38,11 @@ export class TodoListResolver {
   changeStatusTodoList(
     @Args('changeStatusTodoList')
     changeStatusTodoListInput: ChangeStatusTodoListInput,
-    @Context() context: IContextReqUserTodoList,
+    @CurrentUser() userJwtInfo: IUserJWTInfo,
   ) {
-    const userJWT = context.req.user;
-
     return this.changeStatusTodoListUseCase.execute({
       ...changeStatusTodoListInput,
-      userId: userJWT.userId,
+      userId: userJwtInfo.userId,
     });
   }
 
@@ -53,13 +50,11 @@ export class TodoListResolver {
   findTodoListByStatus(
     @Args('findTodoListByStatusInput')
     findTodoListByStatusInput: FindTodoListByStatusInput,
-    @Context() context: IContextReqUserTodoList,
+    @CurrentUser() userJwtInfo: IUserJWTInfo,
   ) {
-    const userJWT = context.req.user;
-
     return this.findTodoListByStatusUseCase.execute({
       ...findTodoListByStatusInput,
-      userId: userJWT.userId,
+      userId: userJwtInfo.userId,
     });
   }
 }

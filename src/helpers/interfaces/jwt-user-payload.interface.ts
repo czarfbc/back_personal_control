@@ -1,4 +1,4 @@
-export interface IPayloadAuth {
+export interface IJWTUserPayload {
   sub: number;
   username: string;
   email: string;

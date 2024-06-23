@@ -36,9 +36,9 @@ model Schedule {
 }
 
 model TodoList {
-  id   Int        @id @default(autoincrement())
-  todo String
-  done TodoStatus @default(PENDING)
+  id     Int        @id @default(autoincrement())
+  todo   String
+  status TodoStatus @default(PENDING)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -91,6 +91,7 @@ enum CategoryTransactionType {
 }
 
 enum TodoStatus {
+  CANCELED
   PENDING
   IN_PROGRESS
   COMPLETED

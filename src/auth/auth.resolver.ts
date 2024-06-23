@@ -1,11 +1,13 @@
 import { Resolver, Mutation, Args } from '@nestjs/graphql';
-import { SignInAuthInput, SignUpAuthInput, RefreshTokenAuthInput } from './dto';
-import { Auth } from './entities';
-import { Public } from 'src/decorators';
+import { RefreshTokenAuthInput } from './dto/refresh-token-auth.input';
+import { SignInAuthInput } from './dto/signin-auth.input';
+import { SignUpAuthInput } from './dto/signup-auth.input';
+import { Auth } from './entities/auth.entity';
+import { Public } from 'src/decorators/public.decorator';
 import { Inject } from '@nestjs/common';
-import { SignUpUseCase } from './use_cases/signup.use-case';
-import { SignInUseCase } from './use_cases/signin.use-case';
-import { RefreshTokenUseCase } from './use_cases/refresh-token.use-case';
+import { SignUpUseCase } from './use-cases/sign-up.use-case';
+import { SignInUseCase } from './use-cases/sign-in.use-case';
+import { RefreshTokenUseCase } from './use-cases/refresh-token.use-case';
 
 @Resolver(() => Auth)
 export class AuthResolver {

@@ -2,7 +2,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { jwtConstants } from '../constants';
-import { IPayloadAuth } from '../../helpers/interfaces/payload-auth.interface';
+import { IJWTUserPayload } from '../../helpers/interfaces/jwt-user-payload.interface';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -14,7 +14,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: IPayloadAuth) {
+  async validate(payload: IJWTUserPayload) {
     if (payload.type !== 'access_token') {
       throw new UnauthorizedException('Invalid token type');
     }

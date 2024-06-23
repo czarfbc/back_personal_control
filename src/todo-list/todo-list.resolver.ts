@@ -1,17 +1,15 @@
 import { Resolver, Mutation, Args, Query } from '@nestjs/graphql';
 import { TodoList } from './entities/todo-list.entity';
-import {
-  CreateTodoListInput,
-  ChangeStatusTodoListInput,
-  FindTodoListByStatusInput,
-  DeleteTodoListInput,
-} from './dto';
+import { CreateTodoListInput } from './dto/create-todo-list.input';
+import { ChangeStatusTodoListInput } from './dto/change-status-todo-list.input';
+import { FindTodoListByStatusInput } from './dto/find-todo-list-by-status.input';
+import { DeleteTodoListInput } from './dto/delete-todo-list.input';
 import { Inject } from '@nestjs/common';
 import { CreateTodoListUseCase } from './use-cases/create-todo-list.use-case';
 import { ChangeStatusTodoListUseCase } from './use-cases/change-status-todo-list.use-case';
 import { FindTodoListByStatusUseCase } from './use-cases/find-todo-list-by-status.use-case';
-import { CurrentUser } from 'src/decorators';
-import { IUserJWTInfo } from 'src/helpers/interfaces';
+import { CurrentUser } from 'src/decorators/current-user.decorator';
+import { IUserJWTInfo } from 'src/helpers/interfaces/jwt-user-info.interface';
 import { DeleteTodoListUseCase } from './use-cases/delete-todo-list.use-case';
 
 @Resolver(() => TodoList)

@@ -1,9 +1,9 @@
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
-import { IPayloadAuth } from '../../helpers/interfaces/payload-auth.interface';
+import { IJWTUserPayload } from '../../helpers/interfaces/jwt-user-payload.interface';
 import { JwtService } from '@nestjs/jwt';
 import { jwtConstants } from '../constants';
 import { IAuthRepository } from '../repository/auth.repository';
-import { GenerateTokenUtils } from 'src/utils';
+import { GenerateTokenUtils } from 'src/utils/generate-token.utils';
 
 @Injectable()
 export class RefreshTokenUseCase {
@@ -37,9 +37,12 @@ export class RefreshTokenUseCase {
   }
 
   private async verifyRefreshToken(refreshToken: string) {
-    const payload: IPayloadAuth = await this.jwtService.verify(refreshToken, {
-      secret: jwtConstants.secret_refresh_token_key,
-    });
+    const payload: IJWTUserPayload = await this.jwtService.verify(
+      refreshToken,
+      {
+        secret: jwtConstants.secret_refresh_token_key,
+      },
+    );
 
     if (payload.type !== 'refresh_token') {
       throw new UnauthorizedException('Invalid token');

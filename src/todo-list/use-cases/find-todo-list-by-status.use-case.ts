@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ITodoListRepository } from '../repository/todo-list.repository';
-import { FindTodoListByStatusInput } from '../dto';
+import { FindTodoListByStatusInput } from '../dto/find-todo-list-by-status.input';
 
 @Injectable()
 export class FindTodoListByStatusUseCase {

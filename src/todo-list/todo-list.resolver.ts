@@ -11,6 +11,8 @@ import { FindTodoListByStatusUseCase } from './use-cases/find-todo-list-by-statu
 import { CurrentUser } from 'src/decorators/current-user.decorator';
 import { IUserJWTInfo } from 'src/helpers/interfaces/jwt-user-info.interface';
 import { DeleteTodoListUseCase } from './use-cases/delete-todo-list.use-case';
+import { EditTodoListUseCase } from './use-cases/edit-todo-list.use-case';
+import { EditTodoListInput } from './dto/edit-todo-list.input';
 
 @Resolver(() => TodoList)
 export class TodoListResolver {
@@ -25,6 +27,8 @@ export class TodoListResolver {
 
   @Inject()
   private deleteTodoListUseCase: DeleteTodoListUseCase;
+
+  @Inject() editTodoListUseCase: EditTodoListUseCase;
 
   @Mutation(() => TodoList)
   createTodoList(
@@ -68,6 +72,17 @@ export class TodoListResolver {
   ) {
     return this.deleteTodoListUseCase.execute({
       ...deleteTodoListInput,
+      userId: userJwtInfo.userId,
+    });
+  }
+
+  @Mutation(() => TodoList)
+  editTodoList(
+    @Args('editTodoListInput') editTodoListInput: EditTodoListInput,
+    @CurrentUser() userJwtInfo: IUserJWTInfo,
+  ) {
+    return this.editTodoListUseCase.execute({
+      ...editTodoListInput,
       userId: userJwtInfo.userId,
     });
   }

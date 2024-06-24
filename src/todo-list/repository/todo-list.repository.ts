@@ -7,7 +7,7 @@ export interface ITodoListRepository {
   delete(todo: Partial<TodoList>): Promise<void>;
   update(todo: Partial<TodoList>): Promise<TodoList>;
   findByStatus(todo: Partial<TodoList>): Promise<TodoList[]>;
-  findById(id: number): Promise<TodoList>;
+  findById(todo: Partial<TodoList>): Promise<TodoList>;
 }
 
 @Injectable()
@@ -23,7 +23,7 @@ export class TodoListRepository implements ITodoListRepository {
 
   async delete(todo: TodoList): Promise<void> {
     await this.prismaService.todoList.delete({
-      where: { id: todo.id },
+      where: { id: todo.id, userId: todo.userId },
     });
 
     return;
@@ -31,20 +31,23 @@ export class TodoListRepository implements ITodoListRepository {
 
   async update(todo: TodoList): Promise<TodoList> {
     return await this.prismaService.todoList.update({
-      where: { id: todo.id },
+      where: { id: todo.id, userId: todo.userId },
       data: todo,
     });
   }
 
   async findByStatus(todo: TodoList): Promise<TodoList[]> {
     return await this.prismaService.todoList.findMany({
-      where: { status: todo.status },
+      where: {
+        userId: todo.userId,
+        status: todo.status,
+      },
     });
   }
 
-  async findById(id: number): Promise<TodoList> {
+  async findById(todo: TodoList): Promise<TodoList> {
     return await this.prismaService.todoList.findUnique({
-      where: { id },
+      where: { id: todo.id, userId: todo.userId },
     });
   }
 }

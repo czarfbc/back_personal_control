@@ -49,6 +49,7 @@ type Mutation {
   createTodoList(createTodoListInput: CreateTodoListInput!): TodoList!
   changeStatusTodoList(changeStatusTodoList: ChangeStatusTodoListInput!): TodoList!
   deleteTodoList(deleteTodoListInput: DeleteTodoListInput!): Boolean!
+  editTodoList(editTodoListInput: EditTodoListInput!): TodoList!
 }
 
 input SignUpAuthInput {
@@ -87,5 +88,10 @@ input ChangeStatusTodoListInput {
 }
 
 input DeleteTodoListInput {
+  id: Int!
+}
+
+input EditTodoListInput {
+  todo: String!
   id: Int!
 }

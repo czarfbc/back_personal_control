@@ -12,11 +12,11 @@ export class DeleteTodoListUseCase {
 
     await this.todoListRepository.delete(input);
 
-    return;
+    return true;
   }
 
   async verifyExistence(id: number) {
-    const verified = await this.todoListRepository.findById(id);
+    const verified = await this.todoListRepository.findById({ id });
 
     if (!verified) {
       throw new Error('Todo list not found');

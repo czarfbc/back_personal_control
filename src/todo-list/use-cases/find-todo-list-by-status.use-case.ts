@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { ITodoListRepository } from '../repository/todo-list.repository';
+import { ITodoListRepository } from '../repositories/todo-list.repository';
 import { FindTodoListByStatusInput } from '../dto/find-todo-list-by-status.input';
 
 @Injectable()

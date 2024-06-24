@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { IAuthRepository } from '../repository/auth.repository';
+import { IAuthRepository } from '../repositories/auth.repository';
 import { SignInAuthInput } from '../dto/signin-auth.input';
 import { GenerateTokenUtils } from 'src/utils/generate-token.utils';
 import { CryptoUtils } from 'src/utils/crypto.utils';

@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { ITodoListRepository } from '../repository/todo-list.repository';
+import { ITodoListRepository } from '../repositories/todo-list.repository';
 import { DeleteTodoListInput } from '../dto/delete-todo-list.input';
 
 @Injectable()

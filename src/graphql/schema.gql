@@ -17,8 +17,9 @@ type Auth {
 }
 
 type Schedule {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  scheduling: String!
+  id: Int!
+  userId: Int!
 }
 
 type TodoList {
@@ -68,13 +69,13 @@ input RefreshTokenAuthInput {
 }
 
 input CreateScheduleInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  scheduling: String!
+  date: String!
 }
 
 input UpdateScheduleInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  scheduling: String
+  date: String
   id: Int!
 }
 

@@ -7,12 +7,13 @@ import { PassportModule } from '@nestjs/passport';
 import { APP_GUARD } from '@nestjs/core';
 import { GqlAuthGuard } from './guards/gql-auth.guard';
 import { JwtStrategy } from './strategies/jwt.strategy';
-import { CryptoUtils } from 'src/utils/crypto.utils';
+import { CryptoUtils } from './utils/crypto.utils';
 import { AuthRepository } from './repositories/auth.repository';
 import { SignUpUseCase } from './use-cases/sign-up.use-case';
 import { SignInUseCase } from './use-cases/sign-in.use-case';
-import { GenerateTokenUtils } from 'src/utils/generate-token.utils';
+import { GenerateTokenUtils } from './utils/generate-token.utils';
 import { RefreshTokenUseCase } from './use-cases/refresh-token.use-case';
+import { HashHelper } from './helpers/hash.helper';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { RefreshTokenUseCase } from './use-cases/refresh-token.use-case';
     CryptoUtils,
     GenerateTokenUtils,
     RefreshTokenUseCase,
+    HashHelper,
     SignUpUseCase,
     SignInUseCase,
     AuthRepository,

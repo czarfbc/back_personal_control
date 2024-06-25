@@ -1,15 +1,26 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { Schedule } from './entities/schedule.entity';
 import { CreateScheduleInput } from './dto/create-schedule.input';
-import { UpdateScheduleInput } from './dto/update-schedule.input';
+import { UpdateScheduleInput } from './dto/edit-schedule.input';
+import { Inject } from '@nestjs/common';
+import { CreateScheduleUseCase } from './use-cases/create-schedule.use-case';
+import { CurrentUser } from 'src/decorators/current-user.decorator';
+import { IUserJWTInfo } from 'src/helpers/jwt-user-info.interface';
 
 @Resolver(() => Schedule)
 export class SchedulesResolver {
+  @Inject()
+  private createScheduleUseCase: CreateScheduleUseCase;
+
   @Mutation(() => Schedule)
   createSchedule(
     @Args('createScheduleInput') createScheduleInput: CreateScheduleInput,
+    @CurrentUser() userJwtInfo: IUserJWTInfo,
   ) {
-    return createScheduleInput;
+    return this.createScheduleUseCase.execute({
+      ...createScheduleInput,
+      userId: userJwtInfo.userId,
+    });
   }
 
   @Query(() => [Schedule], { name: 'schedules' })

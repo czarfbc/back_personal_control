@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ISchedulesRepository } from '../repositories/schedule.repository';
 
 @Injectable()
-export class Generic {
+export class DeleteScheduleUseCase {
   @Inject('ISchedulesRepository')
   private schedulesRepository: ISchedulesRepository;
 

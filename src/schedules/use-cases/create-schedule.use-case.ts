@@ -1,54 +1,39 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ISchedulesRepository } from '../repositories/schedule.repository';
 import { CreateScheduleInput } from '../dto/create-schedule.input';
+import { BeforeDateScheduleHelper } from '../helpers/before-date-schedule.helper';
+import { CheckIfDateIsAvailable } from '../helpers/check-if-date-is-available.helper';
+import { RemoveSecondsOfDateHelper } from '../helpers/remove-seconds-of-date.helper';
 
 @Injectable()
 export class CreateScheduleUseCase {
   @Inject('ISchedulesRepository')
   private schedulesRepository: ISchedulesRepository;
 
+  @Inject()
+  private beforeDateScheduleHelper: BeforeDateScheduleHelper;
+
+  @Inject()
+  private checkIfDateIsAvailable: CheckIfDateIsAvailable;
+
+  @Inject()
+  private removeSecondsOfDateHelper: RemoveSecondsOfDateHelper;
+
   async execute(input: CreateScheduleInput) {
-    const removeSeconds = this.removeSeconds(input.date);
+    const removeSeconds = this.removeSecondsOfDateHelper.removeSeconds(
+      input.date,
+    );
 
-    this.isBeforeDate(removeSeconds, new Date());
+    this.beforeDateScheduleHelper.isBeforeDate(removeSeconds, new Date());
 
-    await this.checkIfDateIsAvailable(removeSeconds, input.userId);
+    await this.checkIfDateIsAvailable.dateIsAvailable(
+      removeSeconds,
+      input.userId,
+    );
 
     return await this.schedulesRepository.create({
       ...input,
       date: removeSeconds,
     });
-  }
-
-  isBeforeDate(date: Date, compareDate: Date) {
-    const isBefore = date.getTime() < compareDate.getTime();
-
-    if (isBefore) {
-      throw new Error('Old date is not allowed');
-    }
-
-    return isBefore;
-  }
-
-  async checkIfDateIsAvailable(date: Date, userId: number) {
-    const dateExists = await this.schedulesRepository.findByDate({
-      date,
-      userId,
-    });
-
-    console.log(dateExists);
-
-    if (dateExists.length > 0) {
-      throw new Error('Date already exists');
-    }
-
-    return;
-  }
-
-  removeSeconds(date: Date): Date {
-    const newDate = new Date(date);
-    newDate.setSeconds(0, 0);
-
-    return newDate;
   }
 }

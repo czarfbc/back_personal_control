@@ -9,7 +9,7 @@ import { CreateTodoListUseCase } from './use-cases/create-todo-list.use-case';
 import { ChangeStatusTodoListUseCase } from './use-cases/change-status-todo-list.use-case';
 import { FindTodoListByStatusUseCase } from './use-cases/find-todo-list-by-status.use-case';
 import { CurrentUser } from 'src/decorators/current-user.decorator';
-import { IUserJWTInfo } from 'src/helpers/jwt-user-info.interface';
+import { IUserJWTInfo } from 'src/utils/interfaces/jwt-user-info.interface';
 import { DeleteTodoListUseCase } from './use-cases/delete-todo-list.use-case';
 import { EditTodoListUseCase } from './use-cases/edit-todo-list.use-case';
 import { EditTodoListInput } from './dto/edit-todo-list.input';

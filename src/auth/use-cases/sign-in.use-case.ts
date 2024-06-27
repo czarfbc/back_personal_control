@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { IAuthRepository } from '../repositories/auth.repository';
 import { SignInAuthInput } from '../dto/signin-auth.input';
-import { GenerateTokenUtils } from 'src/auth/utils/generate-token.utils';
-import { CryptoUtils } from 'src/auth/utils/crypto.utils';
+import { GenerateTokenHelper } from '../helpers/generate-token.helper';
+import { CryptoUtils } from 'src/utils/crypto.utils';
 import { HashHelper } from '../helpers/hash.helper';
 
 @Injectable()
@@ -14,7 +14,7 @@ export class SignInUseCase {
   private cryptoUtils: CryptoUtils;
 
   @Inject()
-  private generateTokenUtils: GenerateTokenUtils;
+  private generateTokenUtils: GenerateTokenHelper;
 
   @Inject()
   private hashHelper: HashHelper;

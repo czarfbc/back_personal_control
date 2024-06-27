@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ISchedulesRepository } from '../repositories/schedule.repository';
 
 @Injectable()
-export class EditInfoScheduleUseCase {
+export class EditScheduleDateUseCase {
   @Inject('ISchedulesRepository')
   private schedulesRepository: ISchedulesRepository;
 

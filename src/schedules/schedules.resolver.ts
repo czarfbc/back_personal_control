@@ -5,7 +5,7 @@ import { UpdateScheduleInput } from './dto/edit-schedule.input';
 import { Inject } from '@nestjs/common';
 import { CreateScheduleUseCase } from './use-cases/create-schedule.use-case';
 import { CurrentUser } from 'src/decorators/current-user.decorator';
-import { IUserJWTInfo } from 'src/helpers/jwt-user-info.interface';
+import { IUserJWTInfo } from 'src/utils/interfaces/jwt-user-info.interface';
 
 @Resolver(() => Schedule)
 export class SchedulesResolver {

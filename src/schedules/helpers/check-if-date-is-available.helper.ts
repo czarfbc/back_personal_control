@@ -7,14 +7,14 @@ export class CheckIfDateIsAvailable {
   private schedulesRepository: ISchedulesRepository;
 
   async dateIsAvailable(date: Date, userId: number) {
-    const dateExists = await this.schedulesRepository.findByDate({
+    const dateExists = await this.schedulesRepository.findFirst({
       date,
       userId,
     });
 
     console.log(dateExists);
 
-    if (dateExists.length > 0) {
+    if (dateExists) {
       throw new Error('Date already exists');
     }
 

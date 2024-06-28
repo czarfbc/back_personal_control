@@ -9,6 +9,7 @@ export interface ISchedulesRepository {
   findAll(schedule: Partial<Schedule>): Promise<Schedule[]>;
   update(schedule: Partial<Schedule>): Promise<Schedule>;
   delete(schedule: Partial<Schedule>): Promise<void>;
+  findById(todo: Partial<Schedule>): Promise<Schedule>;
 }
 
 @Injectable()
@@ -87,5 +88,11 @@ export class SchedulesRepository implements ISchedulesRepository {
     });
 
     return;
+  }
+
+  async findById(todo: Schedule): Promise<Schedule> {
+    return await this.prismaService.schedule.findUnique({
+      where: { id: todo.id, userId: todo.userId },
+    });
   }
 }

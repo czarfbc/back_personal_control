@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { SignUpAuthInput } from '../dto/signup-auth.input';
 import { IAuthRepository } from '../repositories/auth.repository';
 import { CryptoUtils } from 'src/utils/crypto.utils';
-import { HashHelper } from '../helpers/hash.helper';
+import { HashUtils } from '../../utils/hash.utils';
 
 @Injectable()
 export class SignUpUseCase {
@@ -13,7 +13,7 @@ export class SignUpUseCase {
   private cryptoUtils: CryptoUtils;
 
   @Inject()
-  private hashHelper: HashHelper;
+  private hashUtils: HashUtils;
 
   async execute(input: SignUpAuthInput) {
     const [, encrypt] = await Promise.all([
@@ -38,7 +38,7 @@ export class SignUpUseCase {
   }
 
   private async encryptPassword(password: string) {
-    const hash = await this.hashHelper.generate_hash(password);
+    const hash = await this.hashUtils.generate_hash(password);
     const encrypt = await this.cryptoUtils.encrypt(hash);
 
     return encrypt;

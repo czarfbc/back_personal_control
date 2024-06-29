@@ -13,7 +13,7 @@ import { SignUpUseCase } from './use-cases/sign-up.use-case';
 import { SignInUseCase } from './use-cases/sign-in.use-case';
 import { GenerateTokenHelper } from './helpers/generate-token.helper';
 import { RefreshTokenUseCase } from './use-cases/refresh-token.use-case';
-import { HashHelper } from './helpers/hash.helper';
+import { HashUtils } from '../utils/hash.utils';
 
 @Module({
   imports: [
@@ -30,7 +30,7 @@ import { HashHelper } from './helpers/hash.helper';
     CryptoUtils,
     GenerateTokenHelper,
     RefreshTokenUseCase,
-    HashHelper,
+    HashUtils,
     SignUpUseCase,
     SignInUseCase,
     AuthRepository,

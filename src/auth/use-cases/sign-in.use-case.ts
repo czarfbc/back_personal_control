@@ -3,7 +3,7 @@ import { IAuthRepository } from '../repositories/auth.repository';
 import { SignInAuthInput } from '../dto/signin-auth.input';
 import { GenerateTokenHelper } from '../helpers/generate-token.helper';
 import { CryptoUtils } from 'src/utils/crypto.utils';
-import { HashHelper } from '../helpers/hash.helper';
+import { HashUtils } from '../../utils/hash.utils';
 
 @Injectable()
 export class SignInUseCase {
@@ -17,7 +17,7 @@ export class SignInUseCase {
   private generateTokenUtils: GenerateTokenHelper;
 
   @Inject()
-  private hashHelper: HashHelper;
+  private hashUtils: HashUtils;
 
   async execute(input: SignInAuthInput) {
     const findUserEmail = await this.findUserEmail(input.email);
@@ -57,7 +57,7 @@ export class SignInUseCase {
   ) {
     const decipher = await this.cryptoUtils.decrypt(encryptedPassword, iv);
 
-    const isMatch = await this.hashHelper.compare_hash(password, decipher);
+    const isMatch = await this.hashUtils.compare_hash(password, decipher);
 
     if (!isMatch) {
       throw new Error('Invalid credentials');

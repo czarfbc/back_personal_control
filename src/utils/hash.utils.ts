@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
-export class HashHelper {
+export class HashUtils {
   async generate_hash(data: string | Buffer): Promise<string> {
     const hash = await bcrypt.hash(data, 10);
 

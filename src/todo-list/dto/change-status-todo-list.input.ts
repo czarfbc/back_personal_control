@@ -6,7 +6,7 @@ import {
   IsString,
   MinLength,
 } from 'class-validator';
-import { TodoStatus } from 'src/helpers/enums/todo-list-status.enum';
+import { TodoStatus } from '../helpers/todo-list-status.enum';
 
 @InputType()
 export class ChangeStatusTodoListInput {

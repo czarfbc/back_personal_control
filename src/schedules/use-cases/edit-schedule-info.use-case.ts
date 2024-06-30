@@ -1,12 +1,30 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ISchedulesRepository } from '../repositories/schedule.repository';
+import { UpdateScheduleInfoInput } from '../dto/edit-schedule-info.input';
+import { SanitizeAndCheckDate } from '../helpers/sanitize-and-check-date.helper';
 
 @Injectable()
 export class EditScheduleInfoUseCase {
   @Inject('ISchedulesRepository')
   private schedulesRepository: ISchedulesRepository;
 
-  async execute(input) {
-    return await this.schedulesRepository.create(input);
+  @Inject()
+  private sanitizeAndCheckDate: SanitizeAndCheckDate;
+
+  async execute(input: UpdateScheduleInfoInput) {
+    if (input.date) {
+      const sanitizeAndCheckDate =
+        await this.sanitizeAndCheckDate.sanitizeAndCheckDate(
+          input.date,
+          input.userId,
+        );
+
+      return await this.schedulesRepository.update({
+        ...input,
+        date: sanitizeAndCheckDate,
+      });
+    }
+
+    return await this.schedulesRepository.update(input);
   }
 }

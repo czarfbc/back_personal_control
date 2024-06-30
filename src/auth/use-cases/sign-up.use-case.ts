@@ -38,7 +38,7 @@ export class SignUpUseCase {
   }
 
   private async encryptPassword(password: string) {
-    const hash = await this.hashUtils.generate_hash(password);
+    const hash = await this.hashUtils.generateHash(password);
     const encrypt = await this.cryptoUtils.encrypt(hash);
 
     return encrypt;

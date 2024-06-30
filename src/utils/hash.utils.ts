@@ -3,13 +3,13 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class HashUtils {
-  async generate_hash(data: string | Buffer): Promise<string> {
+  async generateHash(data: string | Buffer): Promise<string> {
     const hash = await bcrypt.hash(data, 10);
 
     return hash;
   }
 
-  async compare_hash(
+  async compareHash(
     data: string | Buffer,
     encrypted: string,
   ): Promise<boolean> {

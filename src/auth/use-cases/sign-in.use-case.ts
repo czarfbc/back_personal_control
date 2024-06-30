@@ -57,7 +57,7 @@ export class SignInUseCase {
   ) {
     const decipher = await this.cryptoUtils.decrypt(encryptedPassword, iv);
 
-    const isMatch = await this.hashUtils.compare_hash(password, decipher);
+    const isMatch = await this.hashUtils.compareHash(password, decipher);
 
     if (!isMatch) {
       throw new Error('Invalid credentials');

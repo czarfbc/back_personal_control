@@ -15,7 +15,7 @@ export class DeleteScheduleUseCase {
     return true;
   }
 
-  async verifyExistence(id: number) {
+  private async verifyExistence(id: number) {
     const verified = await this.schedulesRepository.findById({ id });
 
     if (!verified) {

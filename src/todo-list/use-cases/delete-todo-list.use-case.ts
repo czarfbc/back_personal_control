@@ -15,7 +15,7 @@ export class DeleteTodoListUseCase {
     return true;
   }
 
-  async verifyExistence(id: number) {
+  private async verifyExistence(id: number) {
     const verified = await this.todoListRepository.findById({ id });
 
     if (!verified) {

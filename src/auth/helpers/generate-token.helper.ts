@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { jwtConstants } from 'src/auth/constants';
-import { IJWTUserPayload } from 'src/helpers/interfaces/jwt-user-payload.interface';
+import { IJWTUserPayload } from '../interfaces/jwt-user-payload.interface';
 
 @Injectable()
-export class GenerateTokenUtils {
+export class GenerateTokenHelper {
   @Inject()
   private jwtService: JwtService;
 

@@ -23,10 +23,9 @@ model User {
 }
 
 model Schedule {
-  id          Int      @id @default(autoincrement())
-  title       String
-  description String?
-  date        DateTime @db.Timestamptz()
+  id         Int      @id @default(autoincrement())
+  scheduling String
+  date       DateTime @db.Timestamptz()
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

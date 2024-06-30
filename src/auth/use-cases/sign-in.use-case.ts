@@ -1,8 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { IAuthRepository } from '../repository/auth.repository';
+import { IAuthRepository } from '../repositories/auth.repository';
 import { SignInAuthInput } from '../dto/signin-auth.input';
-import { GenerateTokenUtils } from 'src/utils/generate-token.utils';
+import { GenerateTokenHelper } from '../helpers/generate-token.helper';
 import { CryptoUtils } from 'src/utils/crypto.utils';
+import { HashUtils } from '../../utils/hash.utils';
 
 @Injectable()
 export class SignInUseCase {
@@ -13,7 +14,10 @@ export class SignInUseCase {
   private cryptoUtils: CryptoUtils;
 
   @Inject()
-  private generateTokenUtils: GenerateTokenUtils;
+  private generateTokenUtils: GenerateTokenHelper;
+
+  @Inject()
+  private hashUtils: HashUtils;
 
   async execute(input: SignInAuthInput) {
     const findUserEmail = await this.findUserEmail(input.email);
@@ -53,7 +57,7 @@ export class SignInUseCase {
   ) {
     const decipher = await this.cryptoUtils.decrypt(encryptedPassword, iv);
 
-    const isMatch = await this.cryptoUtils.compare_hash(password, decipher);
+    const isMatch = await this.hashUtils.compareHash(password, decipher);
 
     if (!isMatch) {
       throw new Error('Invalid credentials');

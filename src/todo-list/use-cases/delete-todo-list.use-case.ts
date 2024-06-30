@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { ITodoListRepository } from '../repository/todo-list.repository';
+import { ITodoListRepository } from '../repositories/todo-list.repository';
 import { DeleteTodoListInput } from '../dto/delete-todo-list.input';
 
 @Injectable()
@@ -15,7 +15,7 @@ export class DeleteTodoListUseCase {
     return true;
   }
 
-  async verifyExistence(id: number) {
+  private async verifyExistence(id: number) {
     const verified = await this.todoListRepository.findById({ id });
 
     if (!verified) {

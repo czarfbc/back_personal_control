@@ -31,7 +31,12 @@ type TodoList {
 type Query {
   whoAmI: User!
   findAllSchedules: [Schedule!]!
+  findSchedulesByDate(findScheduleByDateInput: FindScheduleByDateInput!): [Schedule!]!
   findTodoListByStatus(findTodoListByStatusInput: FindTodoListByStatusInput!): [TodoList!]!
+}
+
+input FindScheduleByDateInput {
+  date: String!
 }
 
 input FindTodoListByStatusInput {

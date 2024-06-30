@@ -10,6 +10,8 @@ import { DeleteScheduleInput } from './dto/delete-schedule.input';
 import { DeleteScheduleUseCase } from './use-cases/delete-schedule.use-case';
 import { EditScheduleInfoUseCase } from './use-cases/edit-schedule-info.use-case';
 import { FindAllScheduleUseCase } from './use-cases/find-all-schedule.use-case';
+import { FindScheduleByDateScheduleUseCase } from './use-cases/find-schedule-by-date.use-case';
+import { FindScheduleByDateInput } from './dto/find-schedule-by-date.input';
 
 @Resolver(() => Schedule)
 export class SchedulesResolver {
@@ -24,6 +26,9 @@ export class SchedulesResolver {
 
   @Inject()
   private findAllScheduleUseCase: FindAllScheduleUseCase;
+
+  @Inject()
+  private findScheduleByDateScheduleUseCase: FindScheduleByDateScheduleUseCase;
 
   @Mutation(() => Schedule)
   createSchedule(
@@ -40,6 +45,18 @@ export class SchedulesResolver {
   findAllSchedules(@CurrentUser() userJwtInfo: IUserJWTInfo) {
     const userId = userJwtInfo.userId;
     return this.findAllScheduleUseCase.execute({ userId });
+  }
+
+  @Query(() => [Schedule])
+  findSchedulesByDate(
+    @Args('findScheduleByDateInput')
+    findScheduleByDateInput: FindScheduleByDateInput,
+    @CurrentUser() userJwtInfo: IUserJWTInfo,
+  ) {
+    return this.findScheduleByDateScheduleUseCase.execute({
+      ...findScheduleByDateInput,
+      userId: userJwtInfo.userId,
+    });
   }
 
   @Mutation(() => Schedule)

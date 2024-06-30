@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Schedule } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { SetUTCHoursToFindDateHelper } from '../helpers/set-utc-hours-to-find-date.helper';
 
 export interface ISchedulesRepository {
   create(schedule: Partial<Schedule>): Promise<Schedule>;
@@ -17,37 +18,24 @@ export class SchedulesRepository implements ISchedulesRepository {
   @Inject()
   private readonly prismaService: PrismaService;
 
+  @Inject()
+  private setUTCHoursToFindDateHelper: SetUTCHoursToFindDateHelper;
+
   async create(schedule: Schedule): Promise<Schedule> {
     return await this.prismaService.schedule.create({ data: schedule });
   }
 
   async findByDate(schedule: Schedule): Promise<Schedule[]> {
-    const START_HOUR = 0;
-    const START_MINUTE = 0;
-    const START_SECOND = 0;
-    const START_MILLISECOND = 0;
-
-    const END_HOUR = 23;
-    const END_MINUTE = 59;
-    const END_SECOND = 59;
-    const END_MILLISECOND = 999;
-
-    const startOfDay = new Date(schedule.date);
-    startOfDay.setHours(
-      START_HOUR,
-      START_MINUTE,
-      START_SECOND,
-      START_MILLISECOND,
-    );
-
-    const endOfDay = new Date(schedule.date);
-    endOfDay.setHours(END_HOUR, END_MINUTE, END_SECOND, END_MILLISECOND);
+    const dateSeted =
+      this.setUTCHoursToFindDateHelper.setUTCHoursToFindDateHelper(
+        schedule.date,
+      );
 
     return await this.prismaService.schedule.findMany({
       where: {
         date: {
-          gte: startOfDay,
-          lte: endOfDay,
+          gte: dateSeted.startOfDay,
+          lte: dateSeted.endOfDay,
         },
         userId: schedule.userId,
       },

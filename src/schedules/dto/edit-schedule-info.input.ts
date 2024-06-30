@@ -3,7 +3,7 @@ import { CreateScheduleInput } from './create-schedule.input';
 import { InputType, Field, Int, PartialType } from '@nestjs/graphql';
 
 @InputType()
-export class UpdateScheduleInfoInput extends PartialType(CreateScheduleInput) {
+export class EditScheduleInfoInput extends PartialType(CreateScheduleInput) {
   @IsNotEmpty()
   @IsInt()
   @IsPositive()

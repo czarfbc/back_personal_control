@@ -21,7 +21,7 @@ import { HashUtils } from '../utils/hash.utils';
     PassportModule,
     JwtModule.register({
       secret: jwtConstants.secret_token_key,
-      signOptions: { expiresIn: '2600m' },
+      signOptions: { expiresIn: '5m' },
     }),
   ],
   providers: [

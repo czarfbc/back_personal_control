@@ -30,7 +30,7 @@ type TodoList {
 
 type Query {
   whoAmI: User!
-  schedules: [Schedule!]!
+  findAllSchedules: [Schedule!]!
   findTodoListByStatus(findTodoListByStatusInput: FindTodoListByStatusInput!): [TodoList!]!
 }
 
@@ -44,7 +44,7 @@ type Mutation {
   signIn(signInAuthInput: SignInAuthInput!): Auth!
   refreshToken(refreshTokenAuthInput: RefreshTokenAuthInput!): Auth!
   createSchedule(createScheduleInput: CreateScheduleInput!): Schedule!
-  editScheduleInfo(updateScheduleInfoInput: UpdateScheduleInfoInput!): Schedule!
+  editScheduleInfo(updateScheduleInfoInput: EditScheduleInfoInput!): Schedule!
   deleteSchedule(deleteScheduleInput: DeleteScheduleInput!): Boolean!
   createTodoList(createTodoListInput: CreateTodoListInput!): TodoList!
   changeStatusTodoList(changeStatusTodoList: ChangeStatusTodoListInput!): TodoList!
@@ -72,7 +72,7 @@ input CreateScheduleInput {
   date: String!
 }
 
-input UpdateScheduleInfoInput {
+input EditScheduleInfoInput {
   scheduling: String
   date: String
   id: Int!

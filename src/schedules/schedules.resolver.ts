@@ -1,7 +1,7 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { Schedule } from './entities/schedule.entity';
 import { CreateScheduleInput } from './dto/create-schedule.input';
-import { UpdateScheduleInfoInput } from './dto/edit-schedule-info.input';
+import { EditScheduleInfoInput } from './dto/edit-schedule-info.input';
 import { Inject } from '@nestjs/common';
 import { CreateScheduleUseCase } from './use-cases/create-schedule.use-case';
 import { CurrentUser } from 'src/decorators/current-user.decorator';
@@ -9,6 +9,7 @@ import { IUserJWTInfo } from 'src/utils/interfaces/jwt-user-info.interface';
 import { DeleteScheduleInput } from './dto/delete-schedule.input';
 import { DeleteScheduleUseCase } from './use-cases/delete-schedule.use-case';
 import { EditScheduleInfoUseCase } from './use-cases/edit-schedule-info.use-case';
+import { FindAllScheduleUseCase } from './use-cases/find-all-schedule.use-case';
 
 @Resolver(() => Schedule)
 export class SchedulesResolver {
@@ -21,6 +22,9 @@ export class SchedulesResolver {
   @Inject()
   private editScheduleInfoUseCase: EditScheduleInfoUseCase;
 
+  @Inject()
+  private findAllScheduleUseCase: FindAllScheduleUseCase;
+
   @Mutation(() => Schedule)
   createSchedule(
     @Args('createScheduleInput') createScheduleInput: CreateScheduleInput,
@@ -32,19 +36,20 @@ export class SchedulesResolver {
     });
   }
 
-  @Query(() => [Schedule], { name: 'schedules' })
-  findAll() {
-    return;
+  @Query(() => [Schedule])
+  findAllSchedules(@CurrentUser() userJwtInfo: IUserJWTInfo) {
+    const userId = userJwtInfo.userId;
+    return this.findAllScheduleUseCase.execute({ userId });
   }
 
   @Mutation(() => Schedule)
   editScheduleInfo(
     @Args('updateScheduleInfoInput')
-    updateScheduleInfoInput: UpdateScheduleInfoInput,
+    editScheduleInfoInput: EditScheduleInfoInput,
     @CurrentUser() userJwtInfo: IUserJWTInfo,
   ) {
     return this.editScheduleInfoUseCase.execute({
-      ...updateScheduleInfoInput,
+      ...editScheduleInfoInput,
       userId: userJwtInfo.userId,
     });
   }

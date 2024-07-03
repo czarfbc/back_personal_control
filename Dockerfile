@@ -4,9 +4,9 @@ WORKDIR /home/api/node/back_personal_control
 
 COPY package*.json ./
 
-RUN npm ci
-
 COPY . .
+
+RUN npm ci
 
 EXPOSE 3000
 

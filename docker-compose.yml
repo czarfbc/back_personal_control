@@ -5,8 +5,6 @@ services:
     container_name: docker_test_api_container
     build: .
     command: npm run start:dev
-    expose:
-      - '3000'
     ports:
       - '3000:3000'
 

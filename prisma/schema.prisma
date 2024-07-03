@@ -78,9 +78,9 @@ model Transaction {
 }
 
 model CategoryTransaction {
-  id   Int                      @id @default(autoincrement())
-  name String?                  @unique
-  type CategoryTransactionType? @default(OTHER)
+  id           Int                      @id @default(autoincrement())
+  othersTypes  String?                  @unique
+  defaultTypes CategoryTransactionType? @default(OTHER)
 
   Transaction Transaction[]
 }

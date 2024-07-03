@@ -1,0 +1,21 @@
+version: '3.9'
+
+services:
+  api:
+    container_name: docker_test_api_container
+    build: .
+    command: npm run start:dev
+    expose:
+      - '3000'
+    ports:
+      - '3000:3000'
+
+  database:
+    container_name: docker_test_db_container
+    image: postgres:16.3-alpine
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: dockerdbtest
+      POSTGRES_PASSWORD: dockerdbtest
+      POSTGRES_DB: dockerdbtest

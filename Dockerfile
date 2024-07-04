@@ -2,12 +2,11 @@ FROM node:20.15-alpine
 
 WORKDIR /home/api/node/back_personal_control
 
-COPY package*.json ./
-
 COPY . .
 
+RUN rm -rf node_modules
 RUN npm ci
 
-EXPOSE 3000
+EXPOSE ${PORT}
 
 CMD [ "npm", "run", "start:dev" ]

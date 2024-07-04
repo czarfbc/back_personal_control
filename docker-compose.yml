@@ -1,19 +1,36 @@
 version: '3.9'
 
 services:
-  api:
-    container_name: docker_test_api_container
+  api_back_personal_control:
+    container_name: api_back_personal_control
     build: .
     command: npm run start:dev
+    depends_on:
+      - postgres_back_personal_control
+    networks:
+      - network_back_personal_control
     ports:
-      - '3000:3000'
+      - '${PORT}:${PORT}'
+    volumes:
+      - .:/home/api/node/back_personal_control
 
-  database:
-    container_name: docker_test_db_container
+  postgres_back_personal_control:
+    container_name: postgres_back_personal_control
     image: postgres:16.3-alpine
+    networks:
+      - network_back_personal_control
     ports:
       - '5432:5432'
     environment:
-      POSTGRES_USER: dockerdbtest
-      POSTGRES_PASSWORD: dockerdbtest
-      POSTGRES_DB: dockerdbtest
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgres_data_back_personal_control:/var/lib/postgresql/data
+
+networks:
+  network_back_personal_control:
+
+
+volumes:
+  postgres_data_back_personal_control:

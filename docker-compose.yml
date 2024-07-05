@@ -4,7 +4,7 @@ services:
   api_back_personal_control:
     container_name: api_back_personal_control
     build: .
-    command: npm run start:dev
+    command: sh -c 'npx prisma migrate deploy & npm run start:dev'
     depends_on:
       - postgres_back_personal_control
     networks:

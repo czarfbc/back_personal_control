@@ -6,6 +6,7 @@ COPY . .
 
 RUN rm -rf node_modules
 RUN npm ci
+RUN npx prisma generate
 
 EXPOSE ${PORT}
 

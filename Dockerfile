@@ -1,13 +1,11 @@
-FROM node:20.15-bullseye
+FROM node:20.15-bullseye-slim
 
-WORKDIR /usr/app
+WORKDIR /home/api/node/back_personal_control
 
-COPY ./package.json ./package-lock.json ./
-COPY ./prisma ./
+COPY . .
 
-RUN npm ci
-RUN npm i -g typescript prisma
-
-RUN prisma generate
+RUN rm -rf node_modules
+RUN npm install
+RUN npx prisma generate
 
 EXPOSE ${PORT}

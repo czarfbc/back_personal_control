@@ -13,7 +13,7 @@ services:
     ports:
       - '${PORT}:${PORT}'
     volumes:
-      - .:/usr/app
+      - .:/home/api/node/back_personal_control
     command: sh -c 'npx prisma migrate deploy & npm run start:dev'
 
   postgres:

@@ -1,13 +1,13 @@
-FROM node:20.15-alpine
+FROM node:20.15-bullseye
 
-WORKDIR /home/api/node/back_personal_control
+WORKDIR /usr/app
 
-COPY . .
+COPY ./package.json ./package-lock.json ./
+COPY ./prisma ./
 
-RUN rm -rf node_modules
 RUN npm ci
-RUN npx prisma generate
+RUN npm i -g typescript prisma
+
+RUN prisma generate
 
 EXPOSE ${PORT}
-
-CMD [ "npm", "run", "start:dev" ]

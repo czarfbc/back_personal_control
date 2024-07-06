@@ -16,6 +16,7 @@ export class SignUpUseCase {
   private hashUtils: HashUtils;
 
   async execute(input: SignUpAuthInput) {
+    console.log('hello');
     const [, encrypt] = await Promise.all([
       this.findUserEmail(input.email),
       this.encryptPassword(input.password),

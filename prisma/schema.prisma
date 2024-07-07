@@ -62,8 +62,7 @@ model BankAccounts {
 model Transaction {
   id          Int             @id @default(autoincrement())
   description String?
-  category    String?
-  date        DateTime        @db.Timestamptz()
+  date        DateTime        @db.Date
   amount      Decimal         @default(0) @db.Money
   observation String?
   type        TransactionType @default(EXPENSE)
@@ -78,15 +77,13 @@ model Transaction {
 }
 
 model CategoryTransaction {
-  id           Int                      @id @default(autoincrement())
-  othersTypes  String?                  @unique
-  defaultTypes CategoryTransactionType? @default(OTHER)
+  id       Int    @id @default(autoincrement())
+  category String @default("Other")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   Transaction Transaction[]
-}
-
-enum CategoryTransactionType {
-  OTHER
 }
 
 enum TodoStatus {

@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "TodoStatus" AS ENUM ('PENDING', 'IN_PROGRESS', 'COMPLETED');
+CREATE TYPE "TodoStatus" AS ENUM ('CANCELED', 'PENDING', 'IN_PROGRESS', 'COMPLETED');
 
 -- CreateEnum
 CREATE TYPE "TransactionType" AS ENUM ('INCOME', 'EXPENSE');
@@ -10,6 +10,7 @@ CREATE TABLE "User" (
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "iv" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -19,8 +20,7 @@ CREATE TABLE "User" (
 -- CreateTable
 CREATE TABLE "Schedule" (
     "id" SERIAL NOT NULL,
-    "title" TEXT NOT NULL,
-    "description" TEXT,
+    "scheduling" TEXT NOT NULL,
     "date" TIMESTAMPTZ NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -33,7 +33,7 @@ CREATE TABLE "Schedule" (
 CREATE TABLE "TodoList" (
     "id" SERIAL NOT NULL,
     "todo" TEXT NOT NULL,
-    "done" "TodoStatus" NOT NULL DEFAULT 'PENDING',
+    "status" "TodoStatus" NOT NULL DEFAULT 'PENDING',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "userId" INTEGER NOT NULL,
@@ -56,8 +56,7 @@ CREATE TABLE "BankAccounts" (
 CREATE TABLE "Transaction" (
     "id" SERIAL NOT NULL,
     "description" TEXT,
-    "category" TEXT,
-    "date" TIMESTAMPTZ NOT NULL,
+    "date" DATE NOT NULL,
     "amount" MONEY NOT NULL DEFAULT 0,
     "observation" TEXT,
     "type" "TransactionType" NOT NULL DEFAULT 'EXPENSE',
@@ -72,7 +71,9 @@ CREATE TABLE "Transaction" (
 -- CreateTable
 CREATE TABLE "CategoryTransaction" (
     "id" SERIAL NOT NULL,
-    "name" TEXT NOT NULL,
+    "category" TEXT NOT NULL DEFAULT 'Other',
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "CategoryTransaction_pkey" PRIMARY KEY ("id")
 );
@@ -82,9 +83,6 @@ CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "BankAccounts_name_key" ON "BankAccounts"("name");
-
--- CreateIndex
-CREATE UNIQUE INDEX "CategoryTransaction_name_key" ON "CategoryTransaction"("name");
 
 -- AddForeignKey
 ALTER TABLE "Schedule" ADD CONSTRAINT "Schedule_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

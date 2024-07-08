@@ -17,9 +17,9 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  Schedule     Schedule[]
-  TodoList     TodoList[]
-  BankAccounts BankAccounts[]
+  Schedule    Schedule[]
+  TodoList    TodoList[]
+  BankAccount BankAccount[]
 }
 
 model Schedule {
@@ -46,7 +46,7 @@ model TodoList {
   userId Int
 }
 
-model BankAccounts {
+model BankAccount {
   id   Int    @id @default(autoincrement())
   name String @unique
 
@@ -70,8 +70,8 @@ model Transaction {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  BankAccounts          BankAccounts         @relation(fields: [bankAccountsId], references: [id], onDelete: Cascade)
-  bankAccountsId        Int
+  BankAccount           BankAccount          @relation(fields: [bankAccountId], references: [id], onDelete: Cascade)
+  bankAccountId         Int
   CategoryTransaction   CategoryTransaction? @relation(fields: [categoryTransactionId], references: [id], onDelete: Cascade)
   categoryTransactionId Int?
 }

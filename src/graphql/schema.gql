@@ -68,7 +68,7 @@ type Mutation {
   signIn(signInAuthInput: SignInAuthInput!): Auth!
   refreshToken(refreshTokenAuthInput: RefreshTokenAuthInput!): Auth!
   createSchedule(createScheduleInput: CreateScheduleInput!): Schedule!
-  editScheduleInfo(updateScheduleInfoInput: EditScheduleInfoInput!): Schedule!
+  editScheduleInfo(editScheduleInfoInput: EditScheduleInfoInput!): Schedule!
   deleteSchedule(deleteScheduleInput: DeleteScheduleInput!): Boolean!
   createTodoList(createTodoListInput: CreateTodoListInput!): TodoList!
   changeStatusTodoList(changeStatusTodoList: ChangeStatusTodoListInput!): TodoList!

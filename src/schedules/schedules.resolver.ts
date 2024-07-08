@@ -61,7 +61,7 @@ export class SchedulesResolver {
 
   @Mutation(() => Schedule)
   editScheduleInfo(
-    @Args('updateScheduleInfoInput')
+    @Args('editScheduleInfoInput')
     editScheduleInfoInput: EditScheduleInfoInput,
     @CurrentUser() userJwtInfo: IUserJWTInfo,
   ) {

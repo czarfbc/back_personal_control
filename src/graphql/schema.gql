@@ -34,12 +34,12 @@ type BankAccount {
   userId: Int!
 }
 
-type Transaction {
+type TransactionCategory {
   """Example field (placeholder)"""
   exampleField: Int!
 }
 
-type CategoryTransaction {
+type Transaction {
   """Example field (placeholder)"""
   exampleField: Int!
 }
@@ -50,8 +50,10 @@ type Query {
   findSchedulesByDate(findScheduleByDateInput: FindScheduleByDateInput!): [Schedule!]!
   findTodoListByStatus(findTodoListByStatusInput: FindTodoListByStatusInput!): [TodoList!]!
   findAllBankAccount: [BankAccount!]!
+  transactionCategories: [TransactionCategory!]!
+  transactionCategory(id: Int!): TransactionCategory!
+  transactions: [Transaction!]!
   transaction(id: Int!): Transaction!
-  categoryTransaction(id: Int!): CategoryTransaction!
 }
 
 input FindScheduleByDateInput {
@@ -76,12 +78,12 @@ type Mutation {
   editTodoList(editTodoListInput: EditTodoListInput!): TodoList!
   createBankAccount(createBankAccountInput: CreateBankAccountInput!): BankAccount!
   deleteBankAccount(deleteBankAccountInput: DeleteBankAccountInput!): Boolean!
+  createTransactionCategory(createTransactionCategoryInput: CreateTransactionCategoryInput!): TransactionCategory!
+  updateTransactionCategory(updateTransactionCategoryInput: UpdateTransactionCategoryInput!): TransactionCategory!
+  removeTransactionCategory(id: Int!): TransactionCategory!
   createTransaction(createTransactionInput: CreateTransactionInput!): Transaction!
   updateTransaction(updateTransactionInput: UpdateTransactionInput!): Transaction!
   removeTransaction(id: Int!): Transaction!
-  createCategoryTransaction(createCategoryTransactionInput: CreateCategoryTransactionInput!): CategoryTransaction!
-  updateCategoryTransaction(updateCategoryTransactionInput: UpdateCategoryTransactionInput!): CategoryTransaction!
-  removeCategoryTransaction(id: Int!): CategoryTransaction!
 }
 
 input SignUpAuthInput {
@@ -140,23 +142,23 @@ input DeleteBankAccountInput {
   id: Int!
 }
 
+input CreateTransactionCategoryInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateTransactionCategoryInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
 input CreateTransactionInput {
   """Example field (placeholder)"""
   exampleField: Int!
 }
 
 input UpdateTransactionInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
-}
-
-input CreateCategoryTransactionInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdateCategoryTransactionInput {
   """Example field (placeholder)"""
   exampleField: Int
   id: Int!

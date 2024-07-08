@@ -8,8 +8,8 @@ import { AuthModule } from './auth/auth.module';
 import { SchedulesModule } from './schedules/schedules.module';
 import { TodoListModule } from './todo-list/todo-list.module';
 import { BankAccountsModule } from './bank-accounts/bank-accounts.module';
-import { TransactionModule } from './transaction/transaction.module';
-import { CategoryTransactionModule } from './category-transaction/category-transaction.module';
+import { TransactionCategoriesModule } from './transaction-categories/transaction-categories.module';
+import { TransactionsModule } from './transactions/transactions.module';
 
 @Module({
   imports: [
@@ -23,8 +23,8 @@ import { CategoryTransactionModule } from './category-transaction/category-trans
     SchedulesModule,
     TodoListModule,
     BankAccountsModule,
-    TransactionModule,
-    CategoryTransactionModule,
+    TransactionCategoriesModule,
+    TransactionsModule,
   ],
 })
 export class AppModule {}

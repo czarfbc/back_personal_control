@@ -4,7 +4,7 @@ import { CreateTransactionInput } from './dto/create-transaction.input';
 import { UpdateTransactionInput } from './dto/update-transaction.input';
 
 @Resolver(() => Transaction)
-export class TransactionResolver {
+export class TransactionsResolver {
   @Mutation(() => Transaction)
   createTransaction(
     @Args('createTransactionInput')
@@ -13,7 +13,7 @@ export class TransactionResolver {
     return createTransactionInput;
   }
 
-  @Query(() => [Transaction], { name: 'transaction' })
+  @Query(() => [Transaction], { name: 'transactions' })
   findAll() {
     return;
   }

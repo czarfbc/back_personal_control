@@ -70,10 +70,10 @@ model Transaction {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  BankAccount           BankAccount          @relation(fields: [bankAccountId], references: [id], onDelete: Cascade)
+  BankAccount           BankAccount         @relation(fields: [bankAccountId], references: [id], onDelete: Cascade)
   bankAccountId         Int
-  CategoryTransaction   CategoryTransaction? @relation(fields: [categoryTransactionId], references: [id], onDelete: Cascade)
-  categoryTransactionId Int?
+  CategoryTransaction   CategoryTransaction @relation(fields: [categoryTransactionId], references: [id], onDelete: Cascade)
+  categoryTransactionId Int
 }
 
 model CategoryTransaction {

@@ -55,7 +55,7 @@ model BankAccounts {
 
   Transaction Transaction[]
 
-  User   User @relation(fields: [userId], references: [id])
+  User   User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int
 }
 
@@ -70,9 +70,9 @@ model Transaction {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  BankAccounts          BankAccounts         @relation(fields: [bankAccountsId], references: [id])
+  BankAccounts          BankAccounts         @relation(fields: [bankAccountsId], references: [id], onDelete: Cascade)
   bankAccountsId        Int
-  CategoryTransaction   CategoryTransaction? @relation(fields: [categoryTransactionId], references: [id])
+  CategoryTransaction   CategoryTransaction? @relation(fields: [categoryTransactionId], references: [id], onDelete: Cascade)
   categoryTransactionId Int?
 }
 

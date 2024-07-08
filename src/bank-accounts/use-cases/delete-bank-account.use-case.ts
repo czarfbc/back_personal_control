@@ -1,13 +1,15 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { CreateBankAccountInput } from '../dto/create-bank-account.input';
 import { IBankAccountRepository } from '../repositories/bank-accounts.repository';
+import { DeleteBankAccountInput } from '../dto/delete-bank-account.input';
 
 @Injectable()
-export class CreateBankAccountUseCase {
+export class DeleteBankAccountUseCase {
   @Inject('IBankAccountRepository')
   private bankAccountRepository: IBankAccountRepository;
 
-  async execute(input: CreateBankAccountInput) {
-    return await this.bankAccountRepository.create(input);
+  execute(input: DeleteBankAccountInput) {
+    this.bankAccountRepository.delete(input);
+
+    return true;
   }
 }

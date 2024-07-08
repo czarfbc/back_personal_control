@@ -1,38 +1,53 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { BankAccount } from './entities/bank-account.entity';
 import { CreateBankAccountInput } from './dto/create-bank-account.input';
-import { UpdateBankAccountInput } from './dto/update-bank-account.input';
+import { CurrentUser } from 'src/decorators/current-user.decorator';
+import { Inject } from '@nestjs/common';
+import { CreateBankAccountUseCase } from './use-cases/create-bank-account.use-case';
+import { IUserJWTInfo } from 'src/utils/interfaces/jwt-user-info.interface';
+import { FindAllBankAccountUseCase } from './use-cases/find-all-bank-account.use-case';
+import { DeleteBankAccountInput } from './dto/delete-bank-account.input';
+import { DeleteBankAccountUseCase } from './use-cases/delete-bank-account.use-case';
 
 @Resolver(() => BankAccount)
 export class BankAccountsResolver {
+  @Inject()
+  private createBankAccountUseCase: CreateBankAccountUseCase;
+
+  @Inject()
+  private findAllBankAccountUseCase: FindAllBankAccountUseCase;
+
+  @Inject()
+  private deleteBankAccountUseCase: DeleteBankAccountUseCase;
+
   @Mutation(() => BankAccount)
   createBankAccount(
     @Args('createBankAccountInput')
     createBankAccountInput: CreateBankAccountInput,
+    @CurrentUser() userJwtInfo: IUserJWTInfo,
   ) {
-    return createBankAccountInput;
+    return this.createBankAccountUseCase.execute({
+      ...createBankAccountInput,
+      userId: userJwtInfo.userId,
+    });
   }
 
-  @Query(() => [BankAccount], { name: 'bankAccounts' })
-  findAll() {
-    return;
+  @Query(() => [BankAccount])
+  findAllBankAccount(@CurrentUser() userJwtInfo: IUserJWTInfo) {
+    const userId = userJwtInfo.userId;
+
+    return this.findAllBankAccountUseCase.execute({ userId });
   }
 
-  @Query(() => BankAccount, { name: 'bankAccount' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return id;
-  }
-
-  @Mutation(() => BankAccount)
-  updateBankAccount(
-    @Args('updateBankAccountInput')
-    updateBankAccountInput: UpdateBankAccountInput,
+  @Mutation(() => Boolean)
+  deleteBankAccount(
+    @Args('deleteBankAccountInput')
+    deleteBankAccountInput: DeleteBankAccountInput,
+    @CurrentUser() userJwtInfo: IUserJWTInfo,
   ) {
-    return updateBankAccountInput;
-  }
-
-  @Mutation(() => BankAccount)
-  removeBankAccount(@Args('id', { type: () => Int }) id: number) {
-    return id;
+    return this.deleteBankAccountUseCase.execute({
+      ...deleteBankAccountInput,
+      userId: userJwtInfo.userId,
+    });
   }
 }

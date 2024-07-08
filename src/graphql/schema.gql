@@ -29,8 +29,9 @@ type TodoList {
 }
 
 type BankAccount {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  name: String!
+  id: Int!
+  userId: Int!
 }
 
 type Transaction {
@@ -48,8 +49,7 @@ type Query {
   findAllSchedules: [Schedule!]!
   findSchedulesByDate(findScheduleByDateInput: FindScheduleByDateInput!): [Schedule!]!
   findTodoListByStatus(findTodoListByStatusInput: FindTodoListByStatusInput!): [TodoList!]!
-  bankAccounts: [BankAccount!]!
-  bankAccount(id: Int!): BankAccount!
+  findAllBankAccount: [BankAccount!]!
   transaction(id: Int!): Transaction!
   categoryTransaction(id: Int!): CategoryTransaction!
 }
@@ -75,8 +75,7 @@ type Mutation {
   deleteTodoList(deleteTodoListInput: DeleteTodoListInput!): Boolean!
   editTodoList(editTodoListInput: EditTodoListInput!): TodoList!
   createBankAccount(createBankAccountInput: CreateBankAccountInput!): BankAccount!
-  updateBankAccount(updateBankAccountInput: UpdateBankAccountInput!): BankAccount!
-  removeBankAccount(id: Int!): BankAccount!
+  deleteBankAccount(deleteBankAccountInput: DeleteBankAccountInput!): Boolean!
   createTransaction(createTransactionInput: CreateTransactionInput!): Transaction!
   updateTransaction(updateTransactionInput: UpdateTransactionInput!): Transaction!
   removeTransaction(id: Int!): Transaction!
@@ -134,13 +133,10 @@ input EditTodoListInput {
 }
 
 input CreateBankAccountInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  name: String!
 }
 
-input UpdateBankAccountInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+input DeleteBankAccountInput {
   id: Int!
 }
 

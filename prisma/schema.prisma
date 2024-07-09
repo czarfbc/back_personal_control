@@ -17,9 +17,10 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  Schedule    Schedule[]
-  TodoList    TodoList[]
-  BankAccount BankAccount[]
+  Schedule            Schedule[]
+  TodoList            TodoList[]
+  BankAccount         BankAccount[]
+  CategoryTransaction CategoryTransaction[]
 }
 
 model Schedule {
@@ -78,12 +79,14 @@ model Transaction {
 
 model CategoryTransaction {
   id       Int    @id @default(autoincrement())
-  category String @default("Other")
+  category String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   Transaction Transaction[]
+  User        User?         @relation(fields: [userId], references: [id])
+  userId      Int?
 }
 
 enum TodoStatus {

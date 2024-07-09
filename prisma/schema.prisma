@@ -20,7 +20,7 @@ model User {
   Schedule            Schedule[]
   TodoList            TodoList[]
   BankAccount         BankAccount[]
-  CategoryTransaction CategoryTransaction[]
+  TransactionCategory TransactionCategory[]
 }
 
 model Schedule {
@@ -73,11 +73,11 @@ model Transaction {
 
   BankAccount           BankAccount         @relation(fields: [bankAccountId], references: [id], onDelete: Cascade)
   bankAccountId         Int
-  CategoryTransaction   CategoryTransaction @relation(fields: [categoryTransactionId], references: [id], onDelete: Cascade)
-  categoryTransactionId Int
+  TransactionCategory   TransactionCategory @relation(fields: [transactionCategoryId], references: [id], onDelete: Cascade)
+  transactionCategoryId Int
 }
 
-model CategoryTransaction {
+model TransactionCategory {
   id       Int    @id @default(autoincrement())
   category String
 

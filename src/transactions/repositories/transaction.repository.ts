@@ -10,7 +10,7 @@ export interface ITransactionRepository {
 }
 
 @Injectable()
-export class BankAccountRepository implements ITransactionRepository {
+export class TransactionRepository implements ITransactionRepository {
   @Inject()
   private readonly prismaService: PrismaService;
 

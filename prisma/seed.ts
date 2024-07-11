@@ -17,7 +17,7 @@ async function seedCategoriesTransaction() {
 
   await Promise.all(
     categoryTransaction.map((category) =>
-      prisma.categoryTransaction.create({
+      prisma.transactionCategory.create({
         data: {
           category: category,
         },

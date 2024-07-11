@@ -40,8 +40,9 @@ type TransactionCategory {
 }
 
 type Transaction {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  id: Int!
+  bankAccountId: Int!
+  transactionCategoryId: Int!
 }
 
 type Query {
@@ -154,12 +155,22 @@ input UpdateTransactionCategoryInput {
 }
 
 input CreateTransactionInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  description: String
+  date: String!
+  amount: Float!
+  observation: String
+  type: String!
+  bankAccountId: Int!
+  transactionCategoryId: Int!
 }
 
 input UpdateTransactionInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  description: String
+  date: String
+  amount: Float
+  observation: String
+  type: String
+  bankAccountId: Int
+  transactionCategoryId: Int
   id: Int!
 }

@@ -1,10 +1,12 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { Transaction } from './entities/transaction.entity';
 import { CreateTransactionInput } from './dto/create-transaction.input';
 import { Inject } from '@nestjs/common';
 import { CreateTransactionUseCase } from './use-cases/create-transaction.use-case';
 import { FindTransactionByDateAndBankUseCase } from './use-cases/find-transaction-by-date-and-bank.use-case';
 import { FindTransactionByDateAndBankInput } from './dto/find-transaction-by-date-and-bank.input';
+import { DeleteTransactionUseCase } from './use-cases/delete-transaction.use-case';
+import { DeleteTransactionInput } from './dto/delete-transaction.input';
 
 @Resolver(() => Transaction)
 export class TransactionsResolver {
@@ -13,6 +15,9 @@ export class TransactionsResolver {
 
   @Inject()
   private findTransactionByDateAndBankUseCase: FindTransactionByDateAndBankUseCase;
+
+  @Inject()
+  private deleteTransactionUseCase: DeleteTransactionUseCase;
 
   @Mutation(() => Transaction)
   createTransaction(
@@ -32,8 +37,11 @@ export class TransactionsResolver {
     );
   }
 
-  @Mutation(() => Transaction)
-  removeTransaction(@Args('id', { type: () => Int }) id: number) {
-    return id;
+  @Mutation(() => Boolean)
+  deleteTransaction(
+    @Args('deleteTransactionInput')
+    deleteTransactionInput: DeleteTransactionInput,
+  ) {
+    return this.deleteTransactionUseCase.execute(deleteTransactionInput);
   }
 }

@@ -87,7 +87,7 @@ type Mutation {
   updateTransactionCategory(updateTransactionCategoryInput: UpdateTransactionCategoryInput!): TransactionCategory!
   removeTransactionCategory(id: Int!): TransactionCategory!
   createTransaction(createTransactionInput: CreateTransactionInput!): Transaction!
-  removeTransaction(id: Int!): Transaction!
+  deleteTransaction(deleteTransactionInput: DeleteTransactionInput!): Boolean!
 }
 
 input SignUpAuthInput {
@@ -165,4 +165,9 @@ input CreateTransactionInput {
   type: String!
   bankAccountId: Int!
   transactionCategoryId: Int!
+}
+
+input DeleteTransactionInput {
+  id: Int!
+  bankAccountId: Int!
 }

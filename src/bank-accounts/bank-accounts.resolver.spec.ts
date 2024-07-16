@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { TodoListResolver } from './todo-list.resolver';
+import { BankAccountsResolver } from './bank-accounts.resolver';
 
-describe('TodoListResolver', () => {
-  let resolver: TodoListResolver;
+describe('BankAccountsResolver', () => {
+  let resolver: BankAccountsResolver;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [TodoListResolver],
+      providers: [BankAccountsResolver],
     }).compile();
 
-    resolver = module.get<TodoListResolver>(TodoListResolver);
+    resolver = module.get<BankAccountsResolver>(BankAccountsResolver);
   });
 
   it('should be defined', () => {

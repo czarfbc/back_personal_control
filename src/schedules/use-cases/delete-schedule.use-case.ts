@@ -10,7 +10,7 @@ export class DeleteScheduleUseCase {
   async execute(input: DeleteScheduleInput) {
     await this.verifyExistence(input.id);
 
-    await this.schedulesRepository.create(input);
+    await this.schedulesRepository.delete(input);
 
     return true;
   }

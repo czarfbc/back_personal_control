@@ -80,7 +80,7 @@ type Mutation {
   createTodoList(createTodoListInput: CreateTodoListInput!): TodoList!
   changeStatusTodoList(changeStatusTodoList: ChangeStatusTodoListInput!): TodoList!
   deleteTodoList(deleteTodoListInput: DeleteTodoListInput!): Boolean!
-  editTodoList(editTodoListInput: EditTodoListInput!): TodoList!
+  editTodoListInfo(editTodoListInput: EditTodoListInfoInput!): TodoList!
   createBankAccount(createBankAccountInput: CreateBankAccountInput!): BankAccount!
   deleteBankAccount(deleteBankAccountInput: DeleteBankAccountInput!): Boolean!
   createTransactionCategory(createTransactionCategoryInput: CreateTransactionCategoryInput!): TransactionCategory!
@@ -88,6 +88,7 @@ type Mutation {
   removeTransactionCategory(id: Int!): TransactionCategory!
   createTransaction(createTransactionInput: CreateTransactionInput!): Transaction!
   deleteTransaction(deleteTransactionInput: DeleteTransactionInput!): Boolean!
+  editTransactionInfo(editTransactionInfoInput: EditTransactionInfoInput!): Transaction!
 }
 
 input SignUpAuthInput {
@@ -133,8 +134,8 @@ input DeleteTodoListInput {
   id: Int!
 }
 
-input EditTodoListInput {
-  todo: String!
+input EditTodoListInfoInput {
+  todo: String
   id: Int!
 }
 
@@ -170,4 +171,15 @@ input CreateTransactionInput {
 input DeleteTransactionInput {
   id: Int!
   bankAccountId: Int!
+}
+
+input EditTransactionInfoInput {
+  description: String
+  date: String
+  amount: Float
+  observation: String
+  type: String
+  bankAccountId: Int!
+  transactionCategoryId: Int
+  id: Int!
 }

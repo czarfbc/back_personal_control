@@ -7,6 +7,8 @@ import { FindTransactionByDateAndBankUseCase } from './use-cases/find-transactio
 import { FindTransactionByDateAndBankInput } from './dto/find-transaction-by-date-and-bank.input';
 import { DeleteTransactionUseCase } from './use-cases/delete-transaction.use-case';
 import { DeleteTransactionInput } from './dto/delete-transaction.input';
+import { EditTransactionInfoUseCase } from './use-cases/edit-transaction-info.use-case';
+import { EditTransactionInfoInput } from './dto/edit-transaction-info.input';
 
 @Resolver(() => Transaction)
 export class TransactionsResolver {
@@ -18,6 +20,9 @@ export class TransactionsResolver {
 
   @Inject()
   private deleteTransactionUseCase: DeleteTransactionUseCase;
+
+  @Inject()
+  private editTransactionInfoUseCase: EditTransactionInfoUseCase;
 
   @Mutation(() => Transaction)
   createTransaction(
@@ -43,5 +48,13 @@ export class TransactionsResolver {
     deleteTransactionInput: DeleteTransactionInput,
   ) {
     return this.deleteTransactionUseCase.execute(deleteTransactionInput);
+  }
+
+  @Mutation(() => Transaction)
+  editTransactionInfo(
+    @Args('editTransactionInfoInput')
+    editTransactionInfoInput: EditTransactionInfoInput,
+  ) {
+    return this.editTransactionInfoUseCase.execute(editTransactionInfoInput);
   }
 }

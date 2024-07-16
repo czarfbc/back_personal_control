@@ -17,9 +17,10 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  Schedule    Schedule[]
-  TodoList    TodoList[]
-  BankAccount BankAccount[]
+  Schedule            Schedule[]
+  TodoList            TodoList[]
+  BankAccount         BankAccount[]
+  TransactionCategory TransactionCategory[]
 }
 
 model Schedule {
@@ -65,25 +66,27 @@ model Transaction {
   date        DateTime        @db.Date
   amount      Decimal         @default(0) @db.Money
   observation String?
-  type        TransactionType @default(EXPENSE)
+  type        TransactionType
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   BankAccount           BankAccount         @relation(fields: [bankAccountId], references: [id], onDelete: Cascade)
   bankAccountId         Int
-  CategoryTransaction   CategoryTransaction @relation(fields: [categoryTransactionId], references: [id], onDelete: Cascade)
-  categoryTransactionId Int
+  TransactionCategory   TransactionCategory @relation(fields: [transactionCategoryId], references: [id], onDelete: Cascade)
+  transactionCategoryId Int
 }
 
-model CategoryTransaction {
+model TransactionCategory {
   id       Int    @id @default(autoincrement())
-  category String @default("Other")
+  category String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   Transaction Transaction[]
+  User        User?         @relation(fields: [userId], references: [id])
+  userId      Int?
 }
 
 enum TodoStatus {

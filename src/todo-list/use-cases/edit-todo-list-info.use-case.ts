@@ -1,13 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ITodoListRepository } from '../repositories/todo-list.repository';
-import { EditTodoListInput } from '../dto/edit-todo-list.input';
+import { EditTodoListInfoInput } from '../dto/edit-todo-list-info.input';
 
 @Injectable()
-export class EditTodoListUseCase {
+export class EditTodoListInfoUseCase {
   @Inject('ITodoListRepository')
   private todoListRepository: ITodoListRepository;
 
-  async execute(input: EditTodoListInput) {
+  async execute(input: EditTodoListInfoInput) {
     return await this.todoListRepository.update(input);
   }
 }

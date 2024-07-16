@@ -7,6 +7,9 @@ import { join } from 'path';
 import { AuthModule } from './auth/auth.module';
 import { SchedulesModule } from './schedules/schedules.module';
 import { TodoListModule } from './todo-list/todo-list.module';
+import { BankAccountsModule } from './bank-accounts/bank-accounts.module';
+import { TransactionCategoriesModule } from './transaction-categories/transaction-categories.module';
+import { TransactionsModule } from './transactions/transactions.module';
 
 @Module({
   imports: [
@@ -19,6 +22,9 @@ import { TodoListModule } from './todo-list/todo-list.module';
     AuthModule,
     SchedulesModule,
     TodoListModule,
+    BankAccountsModule,
+    TransactionCategoriesModule,
+    TransactionsModule,
   ],
 })
 export class AppModule {}

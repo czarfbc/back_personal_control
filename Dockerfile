@@ -5,7 +5,7 @@ WORKDIR /home/api/node/back_personal_control
 COPY . .
 
 RUN rm -rf node_modules
-RUN npm install
+RUN npm ci
 RUN npx prisma generate
 
 EXPOSE ${PORT}

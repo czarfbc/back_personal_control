@@ -11,8 +11,8 @@ import { FindTodoListByStatusUseCase } from './use-cases/find-todo-list-by-statu
 import { CurrentUser } from 'src/decorators/current-user.decorator';
 import { IUserJWTInfo } from 'src/utils/interfaces/jwt-user-info.interface';
 import { DeleteTodoListUseCase } from './use-cases/delete-todo-list.use-case';
-import { EditTodoListUseCase } from './use-cases/edit-todo-list.use-case';
-import { EditTodoListInput } from './dto/edit-todo-list.input';
+import { EditTodoListInfoUseCase } from './use-cases/edit-todo-list-info.use-case';
+import { EditTodoListInfoInput } from './dto/edit-todo-list-info.input';
 
 @Resolver(() => TodoList)
 export class TodoListResolver {
@@ -28,7 +28,7 @@ export class TodoListResolver {
   @Inject()
   private deleteTodoListUseCase: DeleteTodoListUseCase;
 
-  @Inject() editTodoListUseCase: EditTodoListUseCase;
+  @Inject() editTodoListUseCase: EditTodoListInfoUseCase;
 
   @Mutation(() => TodoList)
   createTodoList(
@@ -77,8 +77,8 @@ export class TodoListResolver {
   }
 
   @Mutation(() => TodoList)
-  editTodoList(
-    @Args('editTodoListInput') editTodoListInput: EditTodoListInput,
+  editTodoListInfo(
+    @Args('editTodoListInput') editTodoListInput: EditTodoListInfoInput,
     @CurrentUser() userJwtInfo: IUserJWTInfo,
   ) {
     return this.editTodoListUseCase.execute({

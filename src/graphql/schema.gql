@@ -28,11 +28,32 @@ type TodoList {
   userId: Int!
 }
 
+type BankAccount {
+  name: String!
+  id: Int!
+  userId: Int!
+}
+
+type TransactionCategory {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Transaction {
+  id: Int!
+  bankAccountId: Int!
+  transactionCategoryId: Int!
+}
+
 type Query {
   whoAmI: User!
   findAllSchedules: [Schedule!]!
   findSchedulesByDate(findScheduleByDateInput: FindScheduleByDateInput!): [Schedule!]!
   findTodoListByStatus(findTodoListByStatusInput: FindTodoListByStatusInput!): [TodoList!]!
+  findAllBankAccount: [BankAccount!]!
+  transactionCategories: [TransactionCategory!]!
+  transactionCategory(id: Int!): TransactionCategory!
+  findTransactionByDateAndBank(findTransactionByDateAndBankInput: FindTransactionByDateAndBankInput!): [Transaction!]!
 }
 
 input FindScheduleByDateInput {
@@ -43,18 +64,31 @@ input FindTodoListByStatusInput {
   status: String!
 }
 
+input FindTransactionByDateAndBankInput {
+  date: String!
+  bankAccountId: Int!
+}
+
 type Mutation {
   deleteUser(id: Int!): User!
   signUp(signUpAuthInput: SignUpAuthInput!): Auth!
   signIn(signInAuthInput: SignInAuthInput!): Auth!
   refreshToken(refreshTokenAuthInput: RefreshTokenAuthInput!): Auth!
   createSchedule(createScheduleInput: CreateScheduleInput!): Schedule!
-  editScheduleInfo(updateScheduleInfoInput: EditScheduleInfoInput!): Schedule!
+  editScheduleInfo(editScheduleInfoInput: EditScheduleInfoInput!): Schedule!
   deleteSchedule(deleteScheduleInput: DeleteScheduleInput!): Boolean!
   createTodoList(createTodoListInput: CreateTodoListInput!): TodoList!
   changeStatusTodoList(changeStatusTodoList: ChangeStatusTodoListInput!): TodoList!
   deleteTodoList(deleteTodoListInput: DeleteTodoListInput!): Boolean!
-  editTodoList(editTodoListInput: EditTodoListInput!): TodoList!
+  editTodoListInfo(editTodoListInput: EditTodoListInfoInput!): TodoList!
+  createBankAccount(createBankAccountInput: CreateBankAccountInput!): BankAccount!
+  deleteBankAccount(deleteBankAccountInput: DeleteBankAccountInput!): Boolean!
+  createTransactionCategory(createTransactionCategoryInput: CreateTransactionCategoryInput!): TransactionCategory!
+  updateTransactionCategory(updateTransactionCategoryInput: UpdateTransactionCategoryInput!): TransactionCategory!
+  removeTransactionCategory(id: Int!): TransactionCategory!
+  createTransaction(createTransactionInput: CreateTransactionInput!): Transaction!
+  deleteTransaction(deleteTransactionInput: DeleteTransactionInput!): Boolean!
+  editTransactionInfo(editTransactionInfoInput: EditTransactionInfoInput!): Transaction!
 }
 
 input SignUpAuthInput {
@@ -100,7 +134,52 @@ input DeleteTodoListInput {
   id: Int!
 }
 
-input EditTodoListInput {
-  todo: String!
+input EditTodoListInfoInput {
+  todo: String
+  id: Int!
+}
+
+input CreateBankAccountInput {
+  name: String!
+}
+
+input DeleteBankAccountInput {
+  id: Int!
+}
+
+input CreateTransactionCategoryInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateTransactionCategoryInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateTransactionInput {
+  description: String
+  date: String!
+  amount: Float!
+  observation: String
+  type: String!
+  bankAccountId: Int!
+  transactionCategoryId: Int!
+}
+
+input DeleteTransactionInput {
+  id: Int!
+  bankAccountId: Int!
+}
+
+input EditTransactionInfoInput {
+  description: String
+  date: String
+  amount: Float
+  observation: String
+  type: String
+  bankAccountId: Int!
+  transactionCategoryId: Int
   id: Int!
 }

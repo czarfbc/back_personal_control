@@ -35,8 +35,9 @@ type BankAccount {
 }
 
 type TransactionCategory {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  category: String!
+  id: Int!
+  userId: Int!
 }
 
 type Transaction {
@@ -51,8 +52,7 @@ type Query {
   findSchedulesByDate(findScheduleByDateInput: FindScheduleByDateInput!): [Schedule!]!
   findTodoListByStatus(findTodoListByStatusInput: FindTodoListByStatusInput!): [TodoList!]!
   findAllBankAccount: [BankAccount!]!
-  transactionCategories: [TransactionCategory!]!
-  transactionCategory(id: Int!): TransactionCategory!
+  findAllTransactionCategory: [TransactionCategory!]!
   findTransactionByDateAndBank(findTransactionByDateAndBankInput: FindTransactionByDateAndBankInput!): [Transaction!]!
 }
 
@@ -84,8 +84,7 @@ type Mutation {
   createBankAccount(createBankAccountInput: CreateBankAccountInput!): BankAccount!
   deleteBankAccount(deleteBankAccountInput: DeleteBankAccountInput!): Boolean!
   createTransactionCategory(createTransactionCategoryInput: CreateTransactionCategoryInput!): TransactionCategory!
-  updateTransactionCategory(updateTransactionCategoryInput: UpdateTransactionCategoryInput!): TransactionCategory!
-  removeTransactionCategory(id: Int!): TransactionCategory!
+  deleteTransactionCategory(deleteTransactionCategoryInput: DeleteTransactionCategoryInput!): Boolean!
   createTransaction(createTransactionInput: CreateTransactionInput!): Transaction!
   deleteTransaction(deleteTransactionInput: DeleteTransactionInput!): Boolean!
   editTransactionInfo(editTransactionInfoInput: EditTransactionInfoInput!): Transaction!
@@ -148,13 +147,10 @@ input DeleteBankAccountInput {
 }
 
 input CreateTransactionCategoryInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  category: String!
 }
 
-input UpdateTransactionCategoryInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+input DeleteTransactionCategoryInput {
   id: Int!
 }
 

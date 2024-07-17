@@ -1,38 +1,53 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { TransactionCategory } from './entities/transaction-category.entity';
 import { CreateTransactionCategoryInput } from './dto/create-transaction-category.input';
-import { UpdateTransactionCategoryInput } from './dto/update-transaction-category.input';
+import { Inject } from '@nestjs/common';
+import { CreateTransactionCategoryUseCase } from './use-cases/create-transaction-category.use-case';
+import { CurrentUser } from 'src/decorators/current-user.decorator';
+import { IUserJWTInfo } from 'src/utils/interfaces/jwt-user-info.interface';
+import { DeleteTransactionCategoryUseCase } from './use-cases/delete-transaction-category.use-case';
+import { DeleteTransactionCategoryInput } from './dto/delete-transaction-category.input';
+import { FindAllTransactionCategoryUseCase } from './use-cases/find-all-transaction-category.use-case';
 
 @Resolver(() => TransactionCategory)
 export class TransactionCategoriesResolver {
+  @Inject()
+  private createTransactionCategoryUseCase: CreateTransactionCategoryUseCase;
+
+  @Inject()
+  private deleteTransactionCategoryUseCase: DeleteTransactionCategoryUseCase;
+
+  @Inject()
+  private findAllTransactionCategoryUseCase: FindAllTransactionCategoryUseCase;
+
   @Mutation(() => TransactionCategory)
   createTransactionCategory(
     @Args('createTransactionCategoryInput')
     createTransactionCategoryInput: CreateTransactionCategoryInput,
+    @CurrentUser() userJwtInfo: IUserJWTInfo,
   ) {
-    return createTransactionCategoryInput;
+    return this.createTransactionCategoryUseCase.execute({
+      ...createTransactionCategoryInput,
+      userId: userJwtInfo.userId,
+    });
   }
 
-  @Query(() => [TransactionCategory], { name: 'transactionCategories' })
-  findAll() {
-    return;
+  @Query(() => [TransactionCategory])
+  findAllTransactionCategory(@CurrentUser() userJwtInfo: IUserJWTInfo) {
+    const userId = userJwtInfo.userId;
+
+    return this.findAllTransactionCategoryUseCase.execute({ userId });
   }
 
-  @Query(() => TransactionCategory, { name: 'transactionCategory' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return id;
-  }
-
-  @Mutation(() => TransactionCategory)
-  updateTransactionCategory(
-    @Args('updateTransactionCategoryInput')
-    updateTransactionCategoryInput: UpdateTransactionCategoryInput,
+  @Mutation(() => Boolean)
+  deleteTransactionCategory(
+    @Args('deleteTransactionCategoryInput')
+    deleteTransactionCategoryInput: DeleteTransactionCategoryInput,
+    @CurrentUser() userJwtInfo: IUserJWTInfo,
   ) {
-    return updateTransactionCategoryInput;
-  }
-
-  @Mutation(() => TransactionCategory)
-  removeTransactionCategory(@Args('id', { type: () => Int }) id: number) {
-    return id;
+    return this.deleteTransactionCategoryUseCase.execute({
+      ...deleteTransactionCategoryInput,
+      userId: userJwtInfo.userId,
+    });
   }
 }

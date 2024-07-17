@@ -1,7 +1,13 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+import { InputType, Field } from '@nestjs/graphql';
+import { IsNotEmpty, IsString, MinLength } from 'class-validator';
 
 @InputType()
 export class CreateTransactionCategoryInput {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
+  @IsNotEmpty()
+  @IsString()
+  @MinLength(3)
+  @Field(() => String)
+  category: string;
+
+  userId: number;
 }
